@@ -1,0 +1,21 @@
+﻿PROJECT STRUCTURE: F:\ClaudeWorkspace\DO AN 1
+|-- 02_Data
+|   |-- frontend
+|-- backend
+|-- docs
+|   |-- architecture
+|   |-- reports
+|   |-- source
+|   |   |-- COURSE_REQUIREMENTS_EXTRACT.md
+|   |-- testing
+|   |-- ARCHITECTURE.md
+|   |-- IMPLEMENTATION_STATUS.md
+|   |-- PROJECT_PLAN.md
+|   |-- TEAM_RESPONSIBILITIES.md
+|   |-- TEAM_WORK_BOUNDARIES_SUMMARY.md
+|-- prompts
+|-- scripts
+|-- Ke_hoach_giang_day_Do_an_1.pptx
+|-- MASTER_PROMPT_BADMINTON_AI_SHOP.md
+|-- project-structure.txt
+|-- TEAM_WORK_BOUNDARIES.md
