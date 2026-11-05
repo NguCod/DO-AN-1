@@ -1,6 +1,6 @@
 import { ReactNode, useState } from 'react';
-import { Header } from '../components/layout/Header';
-import { ChatInterface } from '../components/chat/ChatInterface';
+import { Header } from './Header';
+import { ChatInterface } from '../chat/ChatInterface';
 import { COLORS, SPACING } from '../../theme/constants';
 
 interface LayoutProps {
