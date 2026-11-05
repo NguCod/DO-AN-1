@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { MOCK_PRODUCTS } from '../../mocks/data';
 import { useCart } from '../../context/CartContext';
 import { COLORS, SPACING } from '../../theme/constants';
-import { Product } from '../../types';
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
@@ -31,13 +30,6 @@ export function ProductDetail() {
     navigate('/cart');
   };
 
-  const handleBuyNow = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
-    navigate('/cart');
-  };
-
   const formatPrice = (price: number) =>
     new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(price);
 
@@ -46,7 +38,7 @@ export function ProductDetail() {
   return (
     <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
       <button onClick={() => navigate(-1)} style={{ background: 'none', border: 'none', color: COLORS.primary, cursor: 'pointer', fontSize: '0.875rem', marginBottom: SPACING.md, padding: 0 }}>
-        ← Quay lại
+        {'←'} Quay lại
       </button>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: SPACING.xl }}>
@@ -65,7 +57,7 @@ export function ProductDetail() {
             <span style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>{product.rating?.toFixed(1)}</span>
           </div>
 
-          <div style={{ fontSize: '2rem', fontWeight: 700, color: COLORS.primary, margin: SPACING.sm 0 }}>{formatPrice(product.price)}</div>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: COLORS.primary, marginTop: SPACING.sm, marginBottom: SPACING.sm }}>{formatPrice(product.price)}</div>
 
           <p style={{ color: COLORS.textSecondary, lineHeight: 1.6, fontSize: '0.9375rem' }}>{product.description}</p>
 
@@ -108,7 +100,7 @@ export function ProductDetail() {
             <button onClick={handleAddToCart} disabled={product.stock === 0} style={{ flex: 1, padding: `${SPACING.md} ${SPACING.lg}`, backgroundColor: product.stock > 0 ? 'transparent' : COLORS.border, color: product.stock > 0 ? COLORS.primary : COLORS.textSecondary, border: `2px solid ${COLORS.primary}`, borderRadius: '0.375rem', fontWeight: 600, cursor: product.stock > 0 ? 'pointer' : 'not-allowed', fontSize: '1rem' }}>
               Thêm vào giỏ
             </button>
-            <button onClick={handleBuyNow} disabled={product.stock === 0} style={{ flex: 1, padding: `${SPACING.md} ${SPACING.lg}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', fontWeight: 600, cursor: product.stock > 0 ? 'pointer' : 'not-allowed', fontSize: '1rem' }}>
+            <button onClick={handleAddToCart} disabled={product.stock === 0} style={{ flex: 1, padding: `${SPACING.md} ${SPACING.lg}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', fontWeight: 600, cursor: product.stock > 0 ? 'pointer' : 'not-allowed', fontSize: '1rem' }}>
               Mua ngay
             </button>
           </div>
@@ -118,18 +110,26 @@ export function ProductDetail() {
       {/* Related products */}
       <div style={{ marginTop: SPACING.xl }}>
         <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: SPACING.md, color: COLORS.textMain }}>Sản phẩm liên quan</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: SPACING.md }}>
-          {MOCK_PRODUCTS.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4).map((related) => (
-            <div key={related.id} onClick={() => navigate(`/product/${related.id}`)} style={{ cursor: 'pointer' }}>
-              <div style={{ aspectRatio: '3/4', backgroundColor: COLORS.surface, borderRadius: '0.5rem', overflow: 'hidden', marginBottom: SPACING.sm }}>
-                <img src={related.imageUrl} alt={related.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div style={{ fontSize: '0.75rem', color: COLORS.textSecondary }}>{related.brand}</div>
-              <div style={{ fontSize: '0.875rem', fontWeight: 600, color: COLORS.textMain, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{related.name}</div>
-              <div style={{ fontSize: '0.875rem', fontWeight: 700, color: COLORS.primary }}>{formatPrice(related.price)}</div>
+        {(() => {
+          const related = MOCK_PRODUCTS.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
+          if (related.length === 0) {
+            return <p style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>Không có sản phẩm nào cùng danh mục.</p>;
+          }
+          return (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: SPACING.md }}>
+              {related.map((p) => (
+                <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
+                  <div style={{ aspectRatio: '3/4', backgroundColor: COLORS.surface, borderRadius: '0.5rem', overflow: 'hidden', marginBottom: SPACING.sm }}>
+                    <img src={p.imageUrl} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                  <div style={{ fontSize: '0.75rem', color: COLORS.textSecondary }}>{p.brand}</div>
+                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: COLORS.textMain, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
+                  <div style={{ fontSize: '0.875rem', fontWeight: 700, color: COLORS.primary }}>{formatPrice(p.price)}</div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          );
+        })()}
       </div>
     </div>
   );

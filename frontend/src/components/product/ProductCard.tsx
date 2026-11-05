@@ -1,4 +1,4 @@
-import { Product } from '../../types';
+import type { Product } from '../../types';
 import { COLORS, SPACING } from '../../theme/constants';
 import { useNavigate } from 'react-router-dom';
 

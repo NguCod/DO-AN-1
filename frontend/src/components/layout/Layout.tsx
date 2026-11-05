@@ -1,4 +1,5 @@
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
+import type { ReactNode } from 'react';
 import { Header } from './Header';
 import { ChatInterface } from '../chat/ChatInterface';
 import { COLORS, SPACING } from '../../theme/constants';
@@ -23,14 +24,14 @@ export function Layout({ children, cartItemCount = 0 }: LayoutProps) {
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: SPACING.xl }}>
           <div>
             <h3 style={{ color: COLORS.accent, marginBottom: SPACING.md }}>BadmintonAI Shop</h3>
-            <p style={{ fontSize: '0.875rem', opacity: 0.8 }}>Chuyên cung cấp dụng cụ cau long chat luong cao va tu van AI chuyen nghiep.</p>
+            <p style={{ fontSize: '0.875rem', opacity: 0.8 }}>Chuyên cung cấp dụng cụ cầu lông chất lượng cao và tư vấn AI chuyên nghiệp.</p>
           </div>
           <div>
-            <h4 style={{ marginBottom: SPACING.sm }}>Danh muc</h4>
+            <h4 style={{ marginBottom: SPACING.sm }}>Danh mục</h4>
             <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.875rem', opacity: 0.8 }}>
-              <li style={{ marginBottom: '0.5rem' }}>Vọt cau long</li>
-              <li style={{ marginBottom: '0.5rem' }}>Giay cau long</li>
-              <li style={{ marginBottom: '0.5rem' }}>Phụ kien</li>
+              <li style={{ marginBottom: '0.5rem' }}>Vợt cầu lông</li>
+              <li style={{ marginBottom: '0.5rem' }}>Giày cầu lông</li>
+              <li style={{ marginBottom: '0.5rem' }}>Phụ kiện</li>
             </ul>
           </div>
           <div>

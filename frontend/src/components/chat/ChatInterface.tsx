@@ -1,4 +1,5 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { COLORS, SPACING } from '../../theme/constants';
 
 interface Message {
@@ -12,10 +13,10 @@ interface ChatInterfaceProps {
 }
 
 const SUGGESTED_QUESTIONS = [
-  'Tìm vợt cau long dưới 2 triệu',
-  'Tôi thích chơi phòng thu, đề xuất vợt nào?',
-  'So sánh Victor Thruster F va Lining Tectonic',
-  'Có vợt nào phù hợp cho nguời mới không?',
+  'Tìm vợt cầu lông dưới 2 triệu',
+  'Tôi thích chơi phòng thủ, đề xuất vợt nào?',
+  'So sánh Victor Thruster F và Lining Tectonic',
+  'Có vợt nào phù hợp cho người mới không?',
 ];
 
 export function ChatInterface({ onClose }: ChatInterfaceProps) {
@@ -35,7 +36,7 @@ export function ChatInterface({ onClose }: ChatInterfaceProps) {
     setTimeout(() => {
       const botMessage: Message = {
         role: 'assistant',
-        content: `Toi se tim hieu ve: "${userMessage.content}" cho ban ngay. (Tinh nang tu van AI dang phat trien)`,
+        content: `Tôi sẽ tìm hiểu về: "${userMessage.content}" cho bạn ngay. (Tính năng tư vấn AI đang phát triển)`,
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, botMessage]);
@@ -46,7 +47,7 @@ export function ChatInterface({ onClose }: ChatInterfaceProps) {
   return (
     <div style={{ height: '600px', width: '400px', maxWidth: '90vw', display: 'flex', flexDirection: 'column', backgroundColor: COLORS.background, border: `1px solid ${COLORS.border}`, borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 10px 25px rgba(0,0,0,0.2)' }}>
       <div style={{ padding: SPACING.md, backgroundColor: COLORS.surface, borderBottom: `1px solid ${COLORS.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: COLORS.primary }}>Tu van mua hang AI</h3>
+        <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: COLORS.primary }}>Tư vấn mua hàng AI</h3>
         {onClose && <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: COLORS.textSecondary }}>✕</button>}
       </div>
 
@@ -57,7 +58,7 @@ export function ChatInterface({ onClose }: ChatInterfaceProps) {
             <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>{message.timestamp.toLocaleTimeString()}</div>
           </div>
         ))}
-        {isLoading && <div style={{ color: COLORS.textSecondary, fontStyle: 'italic' }}>AI dang suy nghi...</div>}
+        {isLoading && <div style={{ color: COLORS.textSecondary, fontStyle: 'italic' }}>AI đang suy nghĩ...</div>}
       </div>
 
       <div style={{ padding: SPACING.md, borderTop: `1px solid ${COLORS.border}` }}>
@@ -69,8 +70,8 @@ export function ChatInterface({ onClose }: ChatInterfaceProps) {
           </div>
         )}
         <form onSubmit={handleSubmit} style={{ display: 'flex', gap: SPACING.sm }}>
-          <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Ban can tu van gi?" style={{ flex: 1, padding: `${SPACING.sm} ${SPACING.md}`, borderRadius: '0.375rem', border: `1px solid ${COLORS.border}` }} />
-          <button type="submit" disabled={isLoading} style={{ padding: `${SPACING.sm} ${SPACING.lg}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', cursor: 'pointer' }}>{isLoading ? 'Dang xu ly...' : 'Gửi'}</button>
+          <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Bạn cần tư vấn gì?" style={{ flex: 1, padding: `${SPACING.sm} ${SPACING.md}`, borderRadius: '0.375rem', border: `1px solid ${COLORS.border}` }} />
+          <button type="submit" disabled={isLoading} style={{ padding: `${SPACING.sm} ${SPACING.lg}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', cursor: 'pointer' }}>{isLoading ? 'Đang xử lý...' : 'Gửi'}</button>
         </form>
       </div>
     </div>

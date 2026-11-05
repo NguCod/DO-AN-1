@@ -8,7 +8,7 @@
 
 | Module | Status | Progress |
 |---|---|---|
-| Frontend | **In Progress** | 60% |
+| Frontend | **In Progress** | 85% |
 | Backend | Not Started | 0% |
 | Database | Pending (Trần Đăng Khải) | 0% |
 | AI | Pending ([Thành viên ẩn danh 2]) | 0% |
@@ -41,8 +41,8 @@
 
 ### Pending
 - [ ] Checkout page
-- [ ] User authentication UI
-- [ ] Search/filter functionality
+- [ ] User authentication UI (Login/Register)
+- [ ] Admin dashboard UI (Product management, orders)
 - [ ] Integration with real Backend API
 
 ## 3. Files Created
