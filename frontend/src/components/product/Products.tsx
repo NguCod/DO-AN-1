@@ -1,4 +1,5 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ProductList } from './ProductList';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES, MOCK_BRANDS } from '../../mocks/data';
 import { COLORS, SPACING } from '../../theme/constants';
@@ -21,23 +22,31 @@ const INITIAL_FILTERS: FilterState = {
 };
 
 export function Products() {
-  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTERS);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filters, setFilters] = useState<FilterState>(() => {
+    const search = searchParams.get('search') || '';
+    const category = searchParams.get('category') || 'all';
+    const brand = searchParams.get('brand') || 'all';
+    return { ...INITIAL_FILTERS, search, category, brand };
+  });
   const [showFilters, setShowFilters] = useState(false);
 
-  // Derive available categories/brands from current data
+  useEffect(() => {
+    const params = new URLSearchParams();
+    if (filters.search) params.set('search', filters.search);
+    if (filters.category !== 'all') params.set('category', filters.category);
+    if (filters.brand !== 'all') params.set('brand', filters.brand);
+    setSearchParams(params, { replace: true });
+  }, [filters, setSearchParams]);
+
   const availableCategories = ['all', ...MOCK_CATEGORIES.map(c => c.name)];
   const availableBrands = ['all', ...MOCK_BRANDS.map(b => b.name)];
 
-  // Filtered products
   const filteredProducts = useMemo(() => {
     return MOCK_PRODUCTS.filter(p => {
-      // Category filter
       if (filters.category !== 'all' && p.category !== filters.category) return false;
-      // Brand filter
       if (filters.brand !== 'all' && p.brand !== filters.brand) return false;
-      // Price filter
       if (p.price < filters.minPrice || p.price > filters.maxPrice) return false;
-      // Search filter
       if (filters.search && !p.name.toLowerCase().includes(filters.search.toLowerCase())) return false;
       return true;
     });
@@ -165,7 +174,7 @@ export function Products() {
             </div>
           </div>
 
-          <ProductList products={filteredProducts} onAddToCart={(p) => console.log('Add to cart:', p.name)} />
+          <ProductList products={filteredProducts} />
 
           {filteredProducts.length === 0 && (
             <div style={{ textAlign: 'center', padding: `${SPACING.xl} 0`, backgroundColor: COLORS.surface, borderRadius: '0.75rem' }}>

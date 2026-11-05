@@ -1,58 +1,100 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ProductList } from './ProductList';
 import { MOCK_PRODUCTS, MOCK_CATEGORIES } from '../../mocks/data';
 import { COLORS, SPACING } from '../../theme/constants';
-import { ArrowRight, ChevronRight, Star, TrendingUp, Shield } from 'lucide-react';
+import { ArrowRight, ChevronRight, Star, TrendingUp, Package, RefreshCw, BadgeCheck, MessageCircle } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
 
 export function Home() {
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
   const featuredProducts = MOCK_PRODUCTS.slice(0, 6);
   const topRated = MOCK_PRODUCTS.slice().sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 4);
   const newArrivals = MOCK_PRODUCTS.slice(8, 12);
 
   return (
     <div style={{ overflow: 'hidden' }}>
-      {/* Hero Section */}
-      <div style={{ backgroundColor: COLORS.primary, color: COLORS.background, padding: `${SPACING['2xl']} ${SPACING.md}`, position: 'relative', marginBottom: SPACING.xl }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: SPACING.xl, alignItems: 'center' }}>
+      {/* Hero Section - Full-width modern design */}
+      <div style={{
+        background: `linear-gradient(135deg, ${COLORS.primary} 0%, #d41b1f 50%, #1a1a1a 100%)`,
+        color: COLORS.background,
+        padding: `${SPACING['2xl']} ${SPACING.md}`,
+        position: 'relative',
+        marginBottom: SPACING.xl,
+        minHeight: '480px',
+        display: 'flex',
+        alignItems: 'center',
+        overflow: 'hidden'
+      }}>
+        <div style={{ position: 'absolute', top: 0, right: 0, width: '40%', height: '100%', opacity: 0.1, background: 'url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext x=%2230%22 y=%2250%22 font-size=%2270%22%3E🏸%3C/text%3E%3C/svg%3E")', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'right center' }} />
+
+        <div style={{ maxWidth: '1280px', margin: '0 auto', width: '100%', display: 'flex', flexDirection: 'column', gap: SPACING.lg, alignItems: 'flex-start', position: 'relative', zIndex: 10 }}>
           <div>
-            <h1 style={{ fontSize: '3.5rem', fontWeight: 800, lineHeight: 1.2, marginBottom: SPACING.md }}>
-              Trải nghiệm mua sắm cầu lông thông minh với <span style={{ color: COLORS.accent }}>AI</span>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: SPACING.sm, backgroundColor: 'rgba(255,255,255,0.2)', padding: `${SPACING.xs} ${SPACING.md}`, borderRadius: '9999px', marginBottom: SPACING.md, backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)' }}>
+              <span style={{ fontSize: '0.75rem', fontWeight: 700, color: COLORS.background }}>⚡ KHUYẾN MÃI NGÀY HÔM NAY</span>
+            </div>
+            <h1 style={{ fontSize: '3.25rem', fontWeight: 800, lineHeight: 1.15, marginBottom: SPACING.md, maxWidth: '620px', letterSpacing: '-0.03em', color: COLORS.background }}>
+              Vợt cầu lông <span style={{ color: COLORS.accent }}>chính hãng</span><br />
+              tư vấn AI <span style={{ color: COLORS.accent }}>miễn phí</span>
             </h1>
-            <p style={{ fontSize: '1.25rem', opacity: 0.9, marginBottom: SPACING.lg, maxWidth: '600px' }}>
-              Tư vấn chọn vợt, giày, phụ kiện phù hợp nhất với phong cách và trình độ của bạn.
+            <p style={{ fontSize: '1.0625rem', opacity: 0.9, marginBottom: SPACING.lg, maxWidth: '520px', lineHeight: 1.7, color: 'rgba(255,255,255,0.85)' }}>
+              Hơn 100+ sản phẩm Yonex · Victor · Lining. Giao toàn quốc 24h. Đổi trả trong 30 ngày.
             </p>
             <div style={{ display: 'flex', gap: SPACING.md, flexWrap: 'wrap' }}>
-              <Link to="/products" style={{ padding: `${SPACING.md} ${SPACING.xl}`, backgroundColor: COLORS.background, color: COLORS.primary, borderRadius: '0.5rem', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: SPACING.sm }}>
-                Xem sản phẩm <ArrowRight size={20} />
-              </Link>
-              <button style={{ padding: `${SPACING.md} ${SPACING.xl}`, backgroundColor: 'transparent', color: COLORS.background, border: `2px solid ${COLORS.background}`, borderRadius: '0.5rem', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: SPACING.sm }}>
-                <Shield size={20} /> Đảm bảo chất lượng
+              <button onClick={() => navigate('/products')} style={{ padding: `${SPACING.md} ${SPACING.xl}`, backgroundColor: COLORS.accent, color: COLORS.primary, borderRadius: '0.5rem', fontWeight: 700, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: SPACING.sm, border: 'none', cursor: 'pointer', fontSize: '1rem', transition: 'all 0.2s', boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(255, 215, 0, 0.4)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 215, 0, 0.3)'; }}
+              >
+                Mua ngay <ArrowRight size={20} />
               </button>
-            </div>
-          </div>
-          <div style={{ display: { xs: 'none', lg: 'block' } as any }}>
-            <div style={{ position: 'relative', width: '100%', maxWidth: '600px', margin: '0 auto' }}>
-              <div style={{ aspectRatio: '16/9', backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: '1rem', overflow: 'hidden' }}>
-                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', fontWeight: 600 }}>
-                  🏸 Welcome to BadmintonAI Shop
-                </div>
-              </div>
+              <button style={{ padding: `${SPACING.md} ${SPACING.xl}`, backgroundColor: 'transparent', color: COLORS.background, border: `2px solid rgba(255,255,255,0.5)`, borderRadius: '0.5rem', fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: SPACING.sm, fontSize: '1rem', backdropFilter: 'blur(10px)', transition: 'all 0.2s' }}
+                onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'; e.currentTarget.style.borderColor = COLORS.background; }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'; }}
+              >
+                Tìm hiểu thêm
+              </button>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Quick Links Bar */}
+      <div style={{ backgroundColor: COLORS.surface, borderBottom: `1px solid ${COLORS.border}` }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: `0 ${SPACING.md}`, display: 'flex', justifyContent: 'center', gap: SPACING.xl, flexWrap: 'wrap' }}>
+          {[
+            { icon: Package, label: 'Giao hàng 24h', desc: 'Nhanh chóng' },
+            { icon: RefreshCw, label: 'Đổi trả 30 ngày', desc: 'Dễ dàng' },
+            { icon: BadgeCheck, label: 'Chính hãng 100%', desc: 'Cam kết' },
+            { icon: MessageCircle, label: 'Tư vấn AI', desc: 'Miễn phí' },
+          ].map((item, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, padding: `${SPACING.sm} 0` }}>
+              <div style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: COLORS.background, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+                <item.icon size={20} style={{ color: COLORS.primary }} />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: COLORS.textMain }}>{item.label}</div>
+                <div style={{ fontSize: '0.75rem', color: COLORS.textSecondary }}>{item.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Stats */}
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: `0 ${SPACING.md}`, marginBottom: SPACING.xl }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: `${SPACING.xl} ${SPACING.md}`, marginBottom: SPACING.xl }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: SPACING.lg }}>
           {[
-            { icon: '🏸', label: 'Sản phẩm', value: '15+' },
-            { icon: '⭐', label: 'Đánh giá trung bình', value: '4.6' },
-            { icon: '🚚', label: 'Giao hàng toàn quốc', value: '24h' },
-            { icon: '💬', label: 'Tư vấn AI', value: 'Miễn phí' },
+            { Icon: Package, label: 'Sản phẩm', value: '15+' },
+            { Icon: Star, label: 'Đánh giá trung bình', value: '4.6' },
+            { Icon: RefreshCw, label: 'Giao hàng toàn quốc', value: '24h' },
+            { Icon: MessageCircle, label: 'Tư vấn AI', value: 'Miễn phí' },
           ].map((stat, idx) => (
-            <div key={idx} style={{ backgroundColor: COLORS.surface, padding: SPACING.lg, borderRadius: '0.75rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: SPACING.sm }}>{stat.icon}</div>
+            <div key={idx} style={{ backgroundColor: COLORS.surface, padding: SPACING.lg, borderRadius: '0.75rem', textAlign: 'center', border: `1px solid ${COLORS.border}` }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: SPACING.sm }}>
+                <div style={{ width: '56px', height: '56px', borderRadius: '50%', backgroundColor: COLORS.background, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+                  <stat.Icon size={28} style={{ color: COLORS.primary }} />
+                </div>
+              </div>
               <div style={{ fontSize: '2rem', fontWeight: 700, color: COLORS.primary, marginBottom: SPACING.xs }}>{stat.value}</div>
               <div style={{ fontSize: '0.875rem', color: COLORS.textSecondary }}>{stat.label}</div>
             </div>
@@ -63,7 +105,7 @@ export function Home() {
       {/* Categories */}
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: `0 ${SPACING.md}`, marginBottom: SPACING.xl }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: SPACING.lg }}>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 700 }}>Danh mục nổi bật</h2>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em' }}>Danh mục nổi bật</h2>
           <Link to="/products" style={{ display: 'flex', alignItems: 'center', gap: SPACING.xs, fontSize: '0.875rem', fontWeight: 600, color: COLORS.primary, textDecoration: 'none' }}>
             Xem tất cả <ChevronRight size={16} />
           </Link>
@@ -87,21 +129,21 @@ export function Home() {
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: `0 ${SPACING.md}`, marginBottom: SPACING.xl }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: SPACING.lg }}>
           <div>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 700, marginBottom: '0.25rem' }}>Sản phẩm nổi bật</h2>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.25rem' }}>Sản phẩm nổi bật</h2>
             <p style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>Các sản phẩm được yêu thích nhất hiện nay</p>
           </div>
           <Link to="/products" style={{ display: 'flex', alignItems: 'center', gap: SPACING.xs, padding: `${SPACING.sm} ${SPACING.lg}`, backgroundColor: COLORS.primary, color: COLORS.background, borderRadius: '0.375rem', fontWeight: 600, textDecoration: 'none' }}>
             Xem tất cả <ArrowRight size={16} />
           </Link>
         </div>
-        <ProductList products={featuredProducts} onAddToCart={(p) => console.log('Add to cart:', p.name)} />
+        <ProductList products={featuredProducts} />
       </div>
 
       {/* Top Rated */}
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: `0 ${SPACING.md}`, marginBottom: SPACING.xl }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.lg }}>
           <Star size={24} style={{ color: '#F59E0B' }} />
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 700 }}>Đánh giá cao nhất</h2>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em' }}>Đánh giá cao nhất</h2>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: SPACING.lg }}>
           {topRated.map((p) => (
@@ -126,7 +168,7 @@ export function Home() {
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: `0 ${SPACING.md}`, marginBottom: SPACING.xl }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, marginBottom: SPACING.lg }}>
           <TrendingUp size={24} style={{ color: COLORS.primary }} />
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 700 }}>Sản phẩm mới về</h2>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em' }}>Sản phẩm mới về</h2>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: SPACING.lg }}>
           {newArrivals.map((p) => (
@@ -143,7 +185,10 @@ export function Home() {
                 <div style={{ fontSize: '1rem', fontWeight: 700, color: COLORS.primary, marginBottom: SPACING.sm }}>
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(p.price)}
                 </div>
-                <button onClick={() => console.log('Add to cart:', p.name)} style={{ width: '100%', padding: `${SPACING.sm} ${SPACING.md}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', fontWeight: 600, cursor: 'pointer' }}>Thêm vào giỏ</button>
+                <button onClick={() => {
+                  addToCart(p);
+                  navigate(`/product/${p.id}`);
+                }} style={{ width: '100%', padding: `${SPACING.sm} ${SPACING.md}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', fontWeight: 600, cursor: 'pointer' }}>Thêm vào giỏ</button>
               </div>
             </div>
           ))}

@@ -1,48 +1,67 @@
 import { useCart } from '../../context/CartContext';
+import { useNavigate } from 'react-router-dom';
 import { SPACING, COLORS } from '../../theme/constants';
+import { ArrowRight, Plus, Minus, Trash2 } from 'lucide-react';
 
 export function Cart() {
   const { cartItems, updateQuantity, removeFromCart, totalAmount } = useCart();
+  const navigate = useNavigate();
 
   if (cartItems.length === 0) {
     return (
-      <div style={{ padding: `${SPACING.xl} 0`, textAlign: 'center' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: SPACING.md }}>Giỏ hàng của bạn</h1>
-        <p style={{ color: COLORS.textSecondary }}>Giỏ hàng hiện đang trống.</p>
+      <div style={{ padding: `${SPACING['2xl']} 0`, textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ fontSize: '4rem', marginBottom: SPACING.lg }}>🛒</div>
+        <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: SPACING.md }}>Giỏ hàng trống</h1>
+        <p style={{ color: COLORS.textSecondary, marginBottom: SPACING.xl }}>Chưa có sản phẩm nào trong giỏ hàng của bạn.</p>
+        <button onClick={() => navigate('/products')} style={{ padding: `${SPACING.md} ${SPACING.xl}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.5rem', fontWeight: 600, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: SPACING.sm }}>
+          Tiếp tục mua sắm <ArrowRight size={20} />
+        </button>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: `${SPACING.md} 0` }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: SPACING.lg }}>Giỏ hàng của bạn</h1>
+    <div style={{ padding: `${SPACING.md} 0`, maxWidth: '900px', margin: '0 auto' }}>
+      <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: SPACING.lg }}>Giỏ hàng ({cartItems.length} sản phẩm)</h1>
 
-      <div style={{ display: 'grid', gap: SPACING.md, maxWidth: '800px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.md }}>
         {cartItems.map((item) => (
-          <div key={item.productId} style={{ display: 'flex', gap: SPACING.md, padding: SPACING.md, border: `1px solid ${COLORS.border}`, borderRadius: '0.5rem', alignItems: 'center' }}>
-            <img src={item.product.imageUrl} alt={item.product.name} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '0.375rem' }} />
-            <div style={{ flex: 1 }}>
-              <h3 style={{ margin: 0, fontSize: '1rem' }}>{item.product.name}</h3>
-              <p style={{ margin: '0.25rem 0', color: COLORS.primary, fontWeight: 600 }}>
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.product.price)}
-              </p>
-              <div style={{ display: 'flex', gap: SPACING.sm, alignItems: 'center' }}>
-                <button onClick={() => updateQuantity(item.productId, item.quantity - 1)} style={{ padding: '0.25rem 0.5rem', border: `1px solid ${COLORS.border}`, borderRadius: '0.25rem', cursor: 'pointer' }}>-</button>
-                <span>{item.quantity}</span>
-                <button onClick={() => updateQuantity(item.productId, item.quantity + 1)} style={{ padding: '0.25rem 0.5rem', border: `1px solid ${COLORS.border}`, borderRadius: '0.25rem', cursor: 'pointer' }}>+</button>
+          <div key={item.productId} style={{ display: 'flex', gap: SPACING.md, padding: SPACING.md, backgroundColor: COLORS.background, border: `1px solid ${COLORS.border}`, borderRadius: '0.75rem', alignItems: 'center' }}>
+            <div style={{ width: '96px', height: '96px', flexShrink: 0, borderRadius: '0.5rem', overflow: 'hidden', backgroundColor: COLORS.surface }}>
+              <img src={item.product.imageUrl} alt={item.product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <h3 style={{ margin: '0 0 0.25rem 0', fontSize: '1rem', fontWeight: 600, color: COLORS.textMain, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.product.name}</h3>
+              <p style={{ margin: 0, color: COLORS.textSecondary, fontSize: '0.875rem' }}>{item.product.brand}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm }}>
+                <button onClick={() => updateQuantity(item.productId, item.quantity - 1)} style={{ width: '32px', height: '32px', border: `1px solid ${COLORS.border}`, borderRadius: '0.375rem', cursor: 'pointer', backgroundColor: COLORS.surface, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Minus size={16} />
+                </button>
+                <span style={{ minWidth: '36px', textAlign: 'center', fontSize: '0.875rem', fontWeight: 600 }}>{item.quantity}</span>
+                <button onClick={() => updateQuantity(item.productId, item.quantity + 1)} style={{ width: '32px', height: '32px', border: `1px solid ${COLORS.border}`, borderRadius: '0.375rem', cursor: 'pointer', backgroundColor: COLORS.surface, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Plus size={16} />
+                </button>
+                <span style={{ marginLeft: 'auto', fontSize: '1rem', fontWeight: 700, color: COLORS.primary }}>
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(item.product.price * item.quantity)}
+                </span>
               </div>
             </div>
-            <button onClick={() => removeFromCart(item.productId)} style={{ padding: '0.5rem', backgroundColor: COLORS.error, color: COLORS.background, border: 'none', borderRadius: '0.375rem', cursor: 'pointer' }}>Xóa</button>
+            <button onClick={() => removeFromCart(item.productId)} style={{ padding: '0.5rem', backgroundColor: 'transparent', color: COLORS.error, border: `1px solid ${COLORS.error}`, borderRadius: '0.375rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Trash2 size={18} />
+            </button>
           </div>
         ))}
       </div>
 
-      <div style={{ marginTop: SPACING.xl, padding: SPACING.lg, border: `1px solid ${COLORS.border}`, borderRadius: '0.5rem', maxWidth: '800px', marginLeft: 'auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: 700 }}>
+      <div style={{ marginTop: SPACING.xl, backgroundColor: COLORS.surface, borderRadius: '0.75rem', padding: SPACING.lg }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.125rem', fontWeight: 700, marginBottom: SPACING.md }}>
           <span>Tổng cộng:</span>
-          <span style={{ color: COLORS.primary }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount)}</span>
+          <span style={{ color: COLORS.primary }}>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(totalAmount)}</span>
         </div>
-        <button style={{ marginTop: SPACING.md, width: '100%', padding: '0.75rem', backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', fontWeight: 600, cursor: 'pointer' }}>Tiến hành thanh toán</button>
+        <button onClick={() => { if (cartItems.length > 0) navigate('/checkout'); }} disabled={cartItems.length === 0} style={{ width: '100%', padding: '1rem', backgroundColor: cartItems.length > 0 ? COLORS.primary : COLORS.border, color: cartItems.length > 0 ? COLORS.background : COLORS.textSecondary, border: 'none', borderRadius: '0.5rem', fontWeight: 600, fontSize: '1rem', cursor: cartItems.length > 0 ? 'pointer' : 'not-allowed', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: SPACING.sm }}>
+          Tiến hành thanh toán <ArrowRight size={20} />
+        </button>
+        <p style={{ textAlign: 'center', marginTop: SPACING.md, fontSize: '0.75rem', color: COLORS.textSecondary }}>Hoặc <button onClick={() => navigate('/products')} style={{ color: COLORS.primary, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>tiếp tục mua sắm</button></p>
       </div>
     </div>
   );

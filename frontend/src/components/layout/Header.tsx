@@ -24,8 +24,8 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
   return (
     <header style={{ position: 'sticky', top: 0, backgroundColor: COLORS.background, borderBottom: `1px solid ${COLORS.border}`, zIndex: 50, padding: SPACING.md }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: SPACING.md, alignItems: 'center' }}>
-        <Link to="/" style={{ textDecoration: 'none', fontWeight: 700, fontSize: '1.5rem', color: COLORS.primary, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          ⚡ BadmintonAI
+        <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+          <img src="/logo.svg" alt="BadmintonAI Shop" style={{ height: '50px' }} />
         </Link>
 
         <form onSubmit={handleSearchSubmit} style={{ maxWidth: '500px', width: '100%' }}>

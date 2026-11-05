@@ -50,7 +50,7 @@ export function ProductDetail() {
         {/* Info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
           <div style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>{product.brand}</div>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: 700, margin: 0, color: COLORS.textMain, lineHeight: 1.3 }}>{product.name}</h1>
+          <h1 style={{ fontSize: '1.625rem', fontWeight: 700, margin: 0, color: COLORS.textMain, lineHeight: 1.3, letterSpacing: '-0.02em' }}>{product.name}</h1>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
             <span style={{ color: '#F59E0B', fontSize: '1.125rem' }}>{'★'.repeat(Math.round(product.rating ?? 0))}{'☆'.repeat(5 - Math.round(product.rating ?? 0))}</span>
