@@ -1,10 +1,8 @@
-import { COLORS, TYPOGRAPHY, SPACING, BREAKPOINTS } from '../theme/constants';
-
 export interface Product {
   id: string;
   name: string;
   brand: string;
-  price: number; // VND integer
+  price: number;
   description: string;
   category: string;
   imageUrl: string;
@@ -13,17 +11,8 @@ export interface Product {
   rating?: number;
 }
 
-export interface Category {
-  id: string;
-  name: string;
-  imageUrl?: string;
-}
-
-export interface Brand {
-  id: string;
-  name: string;
-  logoUrl?: string;
-}
+export interface Category { id: string; name: string; imageUrl?: string; }
+export interface Brand { id: string; name: string; logoUrl?: string; }
 
 export interface CartItem {
   productId: string;
