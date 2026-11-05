@@ -1,5 +1,6 @@
 import { Product } from '../../types';
 import { COLORS, SPACING } from '../../theme/constants';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductCardProps {
   product: Product;
@@ -7,8 +8,11 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  const navigate = useNavigate();
+
   return (
     <div style={{ backgroundColor: COLORS.background, borderRadius: '0.75rem', border: `1px solid ${COLORS.border}`, overflow: 'hidden', display: 'flex', flexDirection: 'column', transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer', height: '100%' }}
+      onClick={() => navigate(`/product/${product.id}`)}
       onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = `0 10px 15px -3px ${COLORS.border}`; }}
       onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
     >

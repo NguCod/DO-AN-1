@@ -5,18 +5,22 @@ import { useCart } from './context/CartContext';
 import { Home } from './components/product/Home';
 import { Products } from './components/product/Products';
 import { Cart } from './components/product/Cart';
-import { Product } from './types';
+import { ProductDetail } from './components/product/ProductDetail';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 
 function AppRoutes() {
-  const { addToCart, cartItems } = useCart();
+  const { cartItems } = useCart();
 
   return (
     <Layout cartItemCount={cartItems.length}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+      </ErrorBoundary>
     </Layout>
   );
 }
