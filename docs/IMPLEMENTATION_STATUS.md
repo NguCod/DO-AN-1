@@ -21,26 +21,27 @@
 - [x] Type definitions (Product, Category, Brand, CartItem, Order)
 - [x] Mock data for products and categories
 - [x] Layout component (Header with search, Footer)
-- [x] ProductCard component with hover effects
+- [x] ProductCard component with hover effects + detail page link
 - [x] ProductList component with grid layout
 - [x] Home page with featured products
 - [x] Products page with full product list
 - [x] Cart component with quantity controls
 - [x] CartContext for state management
 - [x] ChatInterface component (UI only)
-- [x] Routing (Home, Products, Cart)
+- [x] Routing (Home, Products, Cart, Product/:id)
 - [x] Dev server running at http://localhost:5173
+- [x] ErrorBoundary component wrapping all routes
+- [x] ProductDetail page with attributes, quantity selector, related products
+- [x] API Contract document for Backend integration
 
 ### In Progress
 - [ ] Responsive design adjustments
 - [ ] Loading states implementation
-- [ ] Error boundary component
 - [ ] API integration layer setup
 
 ### Pending
 - [ ] Checkout page
 - [ ] User authentication UI
-- [ ] Product detail page
 - [ ] Search/filter functionality
 - [ ] Integration with real Backend API
 
@@ -80,7 +81,8 @@ frontend/src/
 - tailwindcss
 
 ## 5. Next Steps
-1. Finalize responsive design
-2. Add loading/error states
-3. Prepare API service layer
-4. Wait for Backend API Contract
+1. Add search/filter functionality to Products page
+2. Build Checkout page
+3. Add loading states (skeleton screens)
+4. Prepare API service layer (`src/services/api.ts`)
+5. Wait for Backend API endpoints per API_CONTRACT.md
