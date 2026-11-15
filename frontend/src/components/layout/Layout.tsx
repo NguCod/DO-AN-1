@@ -12,9 +12,7 @@ interface LayoutProps {
 
 const FOOTER_CATEGORIES = [
   { name: 'Vợt cầu lông', path: '/products?category=Vợt cầu lông' },
-  { name: 'Giày cầu lông', path: '/products?category=Giày cầu lông' },
   { name: 'Quả cầu lông', path: '/products?category=Quả cầu lông' },
-  { name: 'Phụ kiện', path: '/products?category=Phụ kiện' },
 ];
 
 export function Layout({ children, cartItemCount = 0 }: LayoutProps) {

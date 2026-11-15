@@ -2,9 +2,7 @@ import type { Product, Category, Brand } from '../types';
 
 export const MOCK_CATEGORIES: Category[] = [
   { id: 'cat-1', name: 'Vợt cầu lông', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/danh_muc/vot-cau-long-yonex.webp' },
-  { id: 'cat-2', name: 'Giày cầu lông', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/danh_muc/giay-cau-long-yonex-1.webp' },
   { id: 'cat-3', name: 'Quả cầu lông', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/danh_muc/qua-cau-long.webp' },
-  { id: 'cat-4', name: 'Phụ kiện', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/danh_muc/tui-vot-cau-long-yonex-2.webp' },
 ];
 
 export const MOCK_BRANDS: Brand[] = [
@@ -75,33 +73,9 @@ export const MOCK_PRODUCTS: Product[] = [
     attributes: { weight: '3U', balance: 'Head Heavy', stiffness: 'Extra Stiff' }, rating: 4.9,
   },
   {
-    id: 'prod-11', name: 'Giày cầu lông Yonex Power Cushion 65Z3', brand: 'Yonex', price: 2100000,
-    description: 'Giày cao cấp, êm ái và ổn định, hỗ trợ tối đa di chuyển.',
-    category: 'Giày cầu lông', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/san_pham/giay-cau-long-yonex-65z-3-trang-xanh-chinh-hang-1.webp', stock: 10,
-    attributes: { size: '40', color: 'Trắng/Xanh' }, rating: 4.8,
-  },
-  {
-    id: 'prod-12', name: 'Giày cầu lông Victor A970 Ace', brand: 'Victor', price: 1950000,
-    description: 'Giày nhẹ, ôm chân, tăng cường độ bám sân.',
-    category: 'Giày cầu lông', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/san_pham/giay-cau-long-victor-a970-ace-trang-xanh-chinh-hang-1.webp', stock: 12,
-    attributes: { size: '41', color: 'Trắng/Xanh' }, rating: 4.7,
-  },
-  {
     id: 'prod-13', name: 'Quả cầu lông Victor Gold Ace', brand: 'Victor', price: 180000,
     description: 'Cầu lông cao cấp, độ bền cao, bay ổn định.',
     category: 'Quả cầu lông', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/san_pham/qua-cau-long-victor-gold-ace-chinh-hang.webp', stock: 50,
     attributes: { type: 'Lông vũ', speed: '77' }, rating: 4.5,
-  },
-  {
-    id: 'prod-14', name: 'Túi đựng vợt Yonex BA92026', brand: 'Yonex', price: 850000,
-    description: 'Túi đựng vợt 6 ngăn, tiện lợi, bảo vệ vợt tốt.',
-    category: 'Phụ kiện', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/san_pham/tui-dung-vot-cau-long-yonex-ba92026-xanh-navy-chinh-hang-1.webp', stock: 15,
-    attributes: { capacity: '6 vợt', color: 'Xanh navy' }, rating: 4.6,
-  },
-  {
-    id: 'prod-15', name: 'Quần áo cầu lông Lining AATP029', brand: 'Lining', price: 450000,
-    description: 'Áo thun thể thao thoáng khí, thoải mái khi vận động.',
-    category: 'Phụ kiện', imageUrl: 'https://cdn.shopvnb.com/img/300x300/uploads/san_pham/ao-cau-long-lining-aatp029-1-trang-xanh-chinh-hang-1.webp', stock: 30,
-    attributes: { size: 'L', color: 'Trắng/Xanh' }, rating: 4.4,
   },
 ];
