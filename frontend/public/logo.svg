@@ -1,14 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
-  <!-- Badminton shuttlecock icon -->
-  <g transform="translate(10, 15)">
-    <!-- Feathers -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 60" width="350" height="60">
+  <!-- Shuttlecock Icon -->
+  <g transform="translate(10, 10)">
     <path d="M15 5 L20 20 L15 22 L10 20 Z" fill="#FFD700" stroke="#E31B23" stroke-width="1"/>
     <path d="M20 8 L23 20 L20 22 L17 20 Z" fill="#FFD700" stroke="#E31B23" stroke-width="1"/>
     <path d="M10 8 L7 20 L10 22 L13 20 Z" fill="#FFD700" stroke="#E31B23" stroke-width="1"/>
-    <!-- Cork base -->
     <ellipse cx="15" cy="23" rx="5" ry="3" fill="#E31B23"/>
   </g>
-  <!-- Text -->
-  <text x="45" y="28" font-family="'Arial Black', sans-serif" font-size="20" font-weight="bold" fill="#E31B23">BadmintonAI</text>
-  <text x="45" y="44" font-family="Arial, sans-serif" font-size="10" fill="#757575" letter-spacing="1">TƯ VẤN THÔNG MINH</text>
+  <!-- Text Group -->
+  <text x="55" y="30" font-family="'Arial Black', sans-serif" font-size="26" font-weight="bold" fill="#E31B23">Ace Badminton</text>
+  <text x="55" y="50" font-family="Arial, sans-serif" font-size="12" fill="#757575" letter-spacing="1.5">ĐẲNG CẤP CHUYÊN NGHIỆP</text>
 </svg>

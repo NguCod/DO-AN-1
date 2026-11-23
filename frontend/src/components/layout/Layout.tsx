@@ -31,9 +31,9 @@ export function Layout({ children, cartItemCount = 0 }: LayoutProps) {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: SPACING.xl }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: SPACING.md }}>
-                <img src="/logo.svg" alt="BadmintonAI Shop" style={{ height: '36px' }} />
+                <img src="/logo.svg" alt="Ace Badminton" style={{ height: '36px' }} />
               </div>
-              <p style={{ fontSize: '0.875rem', opacity: 0.8, lineHeight: 1.6 }}>Chuyên cung cấp dụng cụ cầu lông chính hãng. Tư vấn chọn vợt phù hợp với phong cách chơi của bạn.</p>
+              <p style={{ fontSize: '0.875rem', opacity: 0.8, lineHeight: 1.6 }}>Chuyên cung cấp dụng cụ cầu lông chính hãng. Đẳng cấp cầu lông chuyên nghiệp.</p>
             </div>
             <div>
               <h4 style={{ marginBottom: SPACING.md, fontSize: '0.875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Danh mục</h4>
@@ -61,14 +61,14 @@ export function Layout({ children, cartItemCount = 0 }: LayoutProps) {
             <div>
               <h4 style={{ marginBottom: SPACING.md, fontSize: '0.875rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Liên hệ</h4>
               <ul style={{ listStyle: 'none', padding: 0, fontSize: '0.875rem', opacity: 0.8 }}>
-                <li style={{ marginBottom: '0.5rem' }}>Email: support@badmintonai.shop</li>
+                <li style={{ marginBottom: '0.5rem' }}>Email: support@acebadminton.shop</li>
                 <li style={{ marginBottom: '0.5rem' }}>Hotline: 1900 xxxx</li>
                 <li style={{ marginBottom: '0.5rem' }}>Hà Nội &amp; TP.HCM</li>
               </ul>
             </div>
           </div>
           <div style={{ textAlign: 'center', marginTop: SPACING.xl, paddingTop: SPACING.md, borderTop: '1px solid rgba(255,255,255,0.1)', fontSize: '0.75rem', opacity: 0.6 }}>
-            © {new Date().getFullYear()} BadmintonAI Shop. All rights reserved.
+            © {new Date().getFullYear()} Ace Badminton. All rights reserved.
           </div>
         </div>
       </footer>

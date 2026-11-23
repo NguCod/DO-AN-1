@@ -1,17 +1,42 @@
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { MOCK_PRODUCTS } from '../../mocks/data';
 import { useCart } from '../../context/CartContext';
 import { COLORS, SPACING } from '../../theme/constants';
+import { fetchProductById, fetchProducts, formatPrice } from '../../services/api';
+
+interface ApiProduct {
+  id: number;
+  name: string;
+  brand: any;
+  series: string;
+  price: string;
+  weight: string;
+  stiffness: string;
+  balance: string;
+  playstyle: string;
+  imageUrl: string;
+}
 
 export function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const [product, setProduct] = useState<ApiProduct | null>(null);
+  const [related, setRelated] = useState<ApiProduct[]>([]);
+  const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
 
-  const product = MOCK_PRODUCTS.find((p) => p.id === id);
+  useEffect(() => {
+    if (!id) return;
+    const numId = parseInt(id, 10);
+    Promise.all([fetchProductById(numId), fetchProducts({ brand: undefined, search: undefined })]).then(([p, all]) => {
+      setProduct(p);
+      setRelated(all.filter((x) => x.series === p?.series && x.id !== p.id).slice(0, 4));
+      setLoading(false);
+    });
+  }, [id]);
 
+  if (loading) return <div style={{ padding: `${SPACING.xl} 0`, textAlign: 'center' }}>Đang tải...</div>;
   if (!product) {
     return (
       <div style={{ textAlign: 'center', padding: `${SPACING.xl} 0` }}>
@@ -23,17 +48,37 @@ export function ProductDetail() {
     );
   }
 
-  const handleAddToCart = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
+  const priceNum = formatPrice(product.price);
+  const attrMap: Record<string, string> = {
+    weight: 'Trọng lượng',
+    balance: 'Cân bằng',
+    stiffness: 'Độ cứng',
+  };
+  const attrEntries: [string, string][] = [];
+Object.entries(attrMap).forEach(([key, vietnamese]) => {
+  attrEntries.push([vietnamese, product[key as keyof typeof product] || '']);
+});
+
+  const handleBuy = () => {
+    const cartProduct = {
+      ...product,
+      id: String(product.id),
+      name: product.name,
+      brand: product.brand?.name || '',
+      price: formatPrice(product.price),
+      description: product.playstyle || '',
+      category: product.series || '',
+      imageUrl: product.imageUrl || '/placeholder.jpg',
+      stock: 99,
+      attributes: {
+        weight: product.weight,
+        balance: product.balance,
+        stiffness: product.stiffness,
+      },
+    };
+    addToCart(cartProduct);
     navigate('/cart');
   };
-
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(price);
-
-  const attrEntries = Object.entries(product.attributes ?? {});
 
   return (
     <div style={{ maxWidth: '1040px', margin: '0 auto' }}>
@@ -42,26 +87,18 @@ export function ProductDetail() {
       </button>
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: SPACING.xl }}>
-        {/* Image */}
         <div style={{ aspectRatio: '3/4', backgroundColor: COLORS.surface, borderRadius: '0.75rem', overflow: 'hidden' }}>
-          <img src={product.imageUrl} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <img src={product.imageUrl || '/placeholder.jpg'} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
 
-        {/* Info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
-          <div style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>{product.brand}</div>
+          <div style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>{product.brand?.name || ''}</div>
           <h1 style={{ fontSize: '1.625rem', fontWeight: 700, margin: 0, color: COLORS.textMain, lineHeight: 1.3, letterSpacing: '-0.02em' }}>{product.name}</h1>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm }}>
-            <span style={{ color: '#F59E0B', fontSize: '1.125rem' }}>{'★'.repeat(Math.round(product.rating ?? 0))}{'☆'.repeat(5 - Math.round(product.rating ?? 0))}</span>
-            <span style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>{product.rating?.toFixed(1)}</span>
+          <div style={{ fontSize: '2rem', fontWeight: 700, color: COLORS.primary, marginTop: SPACING.sm, marginBottom: SPACING.sm }}>
+            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(priceNum)}
           </div>
+          <p style={{ color: COLORS.textSecondary, lineHeight: 1.6, fontSize: '0.9375rem' }}>{product.playstyle}</p>
 
-          <div style={{ fontSize: '2rem', fontWeight: 700, color: COLORS.primary, marginTop: SPACING.sm, marginBottom: SPACING.sm }}>{formatPrice(product.price)}</div>
-
-          <p style={{ color: COLORS.textSecondary, lineHeight: 1.6, fontSize: '0.9375rem' }}>{product.description}</p>
-
-          {/* Attributes table */}
           {attrEntries.length > 0 && (
             <div style={{ backgroundColor: COLORS.surface, borderRadius: '0.5rem', padding: SPACING.md, marginTop: SPACING.sm }}>
               <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: COLORS.textSecondary, marginBottom: SPACING.sm, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Thuộc tính</h3>
@@ -78,29 +115,22 @@ export function ProductDetail() {
             </div>
           )}
 
-          {/* Stock */}
-          <div style={{ fontSize: '0.875rem', color: product.stock > 0 ? '#16A34A' : COLORS.error, marginTop: SPACING.xs }}>
-            {product.stock > 0 ? `Còn hàng (${product.stock} sản phẩm)` : 'Hết hàng'}
+          <div style={{ fontSize: '0.875rem', color: '#16A34A', marginTop: SPACING.xs }}>Còn hàng</div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm }}>
+            <span style={{ fontSize: '0.875rem', color: COLORS.textSecondary }}>Số lượng:</span>
+            <div style={{ display: 'flex', alignItems: 'center', border: `1px solid ${COLORS.border}`, borderRadius: '0.375rem' }}>
+              <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: '36px', height: '36px', border: 'none', background: COLORS.surface, cursor: 'pointer', fontSize: '1.125rem', color: COLORS.textMain, borderRadius: '0.375rem 0 0 0.375rem' }}>−</button>
+              <span style={{ width: '40px', textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, borderLeft: `1px solid ${COLORS.border}`, borderRight: `1px solid ${COLORS.border}`, height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{quantity}</span>
+              <button onClick={() => setQuantity(quantity + 1)} style={{ width: '36px', height: '36px', border: 'none', background: COLORS.surface, cursor: 'pointer', fontSize: '1.125rem', color: COLORS.textMain, borderRadius: '0 0.375rem 0.375rem 0' }}>+</button>
+            </div>
           </div>
 
-          {/* Quantity selector */}
-          {product.stock > 0 && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: SPACING.sm, marginTop: SPACING.sm }}>
-              <span style={{ fontSize: '0.875rem', color: COLORS.textSecondary }}>Số lượng:</span>
-              <div style={{ display: 'flex', alignItems: 'center', border: `1px solid ${COLORS.border}`, borderRadius: '0.375rem' }}>
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} style={{ width: '36px', height: '36px', border: 'none', background: COLORS.surface, cursor: 'pointer', fontSize: '1.125rem', color: COLORS.textMain, borderRadius: '0.375rem 0 0 0.375rem' }}>−</button>
-                <span style={{ width: '40px', textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, borderLeft: `1px solid ${COLORS.border}`, borderRight: `1px solid ${COLORS.border}`, height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{quantity}</span>
-                <button onClick={() => setQuantity(Math.min(product.stock, quantity + 1))} style={{ width: '36px', height: '36px', border: 'none', background: COLORS.surface, cursor: 'pointer', fontSize: '1.125rem', color: COLORS.textMain, borderRadius: '0 0.375rem 0.375rem 0' }}>+</button>
-              </div>
-            </div>
-          )}
-
-          {/* Action buttons */}
           <div style={{ display: 'flex', gap: SPACING.sm, marginTop: SPACING.md }}>
-            <button onClick={handleAddToCart} disabled={product.stock === 0} style={{ flex: 1, padding: `${SPACING.md} ${SPACING.lg}`, backgroundColor: product.stock > 0 ? 'transparent' : COLORS.border, color: product.stock > 0 ? COLORS.primary : COLORS.textSecondary, border: `2px solid ${COLORS.primary}`, borderRadius: '0.375rem', fontWeight: 600, cursor: product.stock > 0 ? 'pointer' : 'not-allowed', fontSize: '1rem' }}>
+            <button onClick={handleBuy} style={{ flex: 1, padding: `${SPACING.md} ${SPACING.lg}`, backgroundColor: 'transparent', color: COLORS.primary, border: `2px solid ${COLORS.primary}`, borderRadius: '0.375rem', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }}>
               Thêm vào giỏ
             </button>
-            <button onClick={handleAddToCart} disabled={product.stock === 0} style={{ flex: 1, padding: `${SPACING.md} ${SPACING.lg}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', fontWeight: 600, cursor: product.stock > 0 ? 'pointer' : 'not-allowed', fontSize: '1rem' }}>
+            <button onClick={handleBuy} style={{ flex: 1, padding: `${SPACING.md} ${SPACING.lg}`, backgroundColor: COLORS.primary, color: COLORS.background, border: 'none', borderRadius: '0.375rem', fontWeight: 600, cursor: 'pointer', fontSize: '1rem' }}>
               Mua ngay
             </button>
           </div>
@@ -109,27 +139,25 @@ export function ProductDetail() {
 
       {/* Related products */}
       <div style={{ marginTop: SPACING.xl }}>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: SPACING.md, color: COLORS.textMain }}>Sản phẩm liên quan</h2>
-        {(() => {
-          const related = MOCK_PRODUCTS.filter((p) => p.id !== product.id && p.category === product.category).slice(0, 4);
-          if (related.length === 0) {
-            return <p style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>Không có sản phẩm nào cùng danh mục.</p>;
-          }
-          return (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: SPACING.md }}>
-              {related.map((p) => (
-                <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
-                  <div style={{ aspectRatio: '3/4', backgroundColor: COLORS.surface, borderRadius: '0.5rem', overflow: 'hidden', marginBottom: SPACING.sm }}>
-                    <img src={p.imageUrl} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </div>
-                  <div style={{ fontSize: '0.75rem', color: COLORS.textSecondary }}>{p.brand}</div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: COLORS.textMain, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 700, color: COLORS.primary }}>{formatPrice(p.price)}</div>
+        <h2 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: SPACING.md, color: COLORS.textMain }}>Sản phẩm cùng dòng</h2>
+        {related.length === 0 ? (
+          <p style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>Không có sản phẩm nào cùng dòng.</p>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: SPACING.md }}>
+            {related.map((p) => (
+              <div key={p.id} onClick={() => navigate(`/product/${p.id}`)} style={{ cursor: 'pointer' }}>
+                <div style={{ aspectRatio: '3/4', backgroundColor: COLORS.surface, borderRadius: '0.5rem', overflow: 'hidden', marginBottom: SPACING.sm }}>
+                  <img src={p.imageUrl || '/placeholder.jpg'} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
-              ))}
-            </div>
-          );
-        })()}
+                <div style={{ fontSize: '0.75rem', color: COLORS.textSecondary }}>{p.brand?.name || ''}</div>
+                <div style={{ fontSize: '0.875rem', fontWeight: 600, color: COLORS.textMain, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
+                <div style={{ fontSize: '0.875rem', fontWeight: 700, color: COLORS.primary }}>
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(formatPrice(p.price))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

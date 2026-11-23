@@ -25,7 +25,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
     <header style={{ position: 'sticky', top: 0, backgroundColor: COLORS.background, borderBottom: `1px solid ${COLORS.border}`, zIndex: 50, padding: SPACING.md }}>
       <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: SPACING.md, alignItems: 'center' }}>
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-          <img src="/logo.svg" alt="BadmintonAI Shop" style={{ height: '50px' }} />
+          <img src="/logo.svg" alt="Ace Badminton" style={{ height: '50px' }} />
         </Link>
 
         <form onSubmit={handleSearchSubmit} style={{ maxWidth: '500px', width: '100%' }}>
@@ -59,6 +59,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
             )}
           </Link>
 
+          
           {isAuthenticated ? (
             <div style={{ position: 'relative' }}>
               <button
