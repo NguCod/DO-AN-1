@@ -23,6 +23,8 @@ export function Home() {
       setProducts(prods);
       setStats(st);
       setLoading(false);
+    }).catch(() => {
+      setLoading(false);
     });
   }, []);
 
