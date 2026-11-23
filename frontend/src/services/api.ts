@@ -27,11 +27,12 @@ export function formatPrice(priceStr: string): number {
   return num * (map[clean] || 1);
 }
 
-export async function fetchProducts(params?: { brand?: string; series?: string; search?: string }): Promise<ApiProduct[]> {
+export async function fetchProducts(params?: { brand?: string; series?: string; search?: string; category?: string }): Promise<ApiProduct[]> {
   const query = new URLSearchParams();
   if (params?.brand) query.set('brand', params.brand);
   if (params?.series) query.set('series', params.series);
   if (params?.search) query.set('search', params.search);
+  if (params?.category) query.set('category', params.category);
   const res = await fetch(`${API}/products?${query}`);
   return res.json();
 }
