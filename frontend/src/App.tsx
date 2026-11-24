@@ -1,14 +1,16 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
-import { CartProvider, useCart } from './context/CartContext';
-import { UserProvider } from './context/UserContext';
+import { CartProvider } from './context/CartContext';
+import { UserProvider, useUser } from './context/UserContext';
 import { AdminProvider } from './context/AdminContext';
 import { Home } from './components/product/Home';
 import { Products } from './components/product/Products';
-import { Cart } from './components/product/Cart';
+import { CartView } from './components/product/CartView';
 import { ProductDetail } from './components/product/ProductDetail';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
+import { Checkout } from './components/product/Checkout';
+import { OrderHistory } from './components/product/OrderHistory';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import { AdminLogin } from './components/admin/AdminLogin';
 import { AdminLayout } from './components/admin/AdminLayout';
@@ -19,9 +21,9 @@ import { AdminUsers } from './components/admin/AdminUsers';
 import { useEffect } from 'react';
 
 function PublicRoutes() {
-  const { cartItems } = useCart();
+  const { user } = useUser();
   return (
-    <Layout cartItemCount={cartItems.length}>
+    <Layout cartItemCount={0} user={user}>
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -29,9 +31,11 @@ function PublicRoutes() {
           <Route path="/qua" element={<Products />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/cart" element={<Cart />} />
+          <Route path="/cart" element={<CartView />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<OrderHistory />} />
         </Routes>
       </ErrorBoundary>
     </Layout>

@@ -200,7 +200,63 @@ export async function deleteAdminUser(token: string, id: number) {
   return res.json();
 }
 
-export async function fetchPublicStats() {
-  const res = await fetch(`${API}/public/stats`);
-  return res.json();
+export async function customerRegister(data: any) {
+  const res = await fetch(`${API}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  if (!res.ok) {
+    const error = await res.json()
+    throw new Error(error.error || 'Register failed')
+  }
+  return res.json()
+}
+
+export async function customerLogin(credentials: any) {
+  const res = await fetch(`${API}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(credentials),
+  })
+  if (!res.ok) {
+    const error = await res.json()
+    throw new Error(error.error || 'Login failed')
+  }
+  return res.json()
+}
+
+export async function addToCart(token: string, productId: number, quantity: number = 1) {
+  const res = await fetch(`${API}/cart/items`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ productId, quantity }),
+  })
+  if (!res.ok) throw new Error('Add to cart failed')
+  return res.json()
+}
+
+export async function fetchCart(token: string) {
+  const res = await fetch(`${API}/cart`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  return res.json()
+}
+
+export async function deleteCartItem(token: string, itemId: number) {
+  const res = await fetch(`${API}/cart/items/${itemId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Delete failed')
+  return res.json()
+}
+
+export async function placeOrder(token: string) {
+  const res = await fetch(`${API}/orders`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Order failed')
+  return res.json()
 }
