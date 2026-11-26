@@ -117,15 +117,22 @@ const authMiddleware = (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization
   if (!authHeader?.startsWith('Bearer ')) return res.status(401).json({ error: 'Chưa đăng nhập' })
   try {
-    req.user = jwt.verify(authHeader.split(' ')[1], SECRET)
+    req.user = jwt.verify(authHeader.split(' ')[1], SECRET) as any
     next()
   } catch {
-    res.status(401).json({ error: 'Token hết hạn' })
+    res.status(401).json({ error: 'Token không hợp lệ' })
   }
 }
 
+const adminMiddleware = (req: any, res: any, next: any) => {
+  authMiddleware(req, res, () => {
+    if (req.user.role !== 'admin') return res.status(403).json({ error: 'Không có quyền truy cập' })
+    next()
+  })
+}
+
 // --- Admin Product CRUD ---
-app.get('/api/admin/products', authMiddleware, async (req, res) => {
+app.get('/api/admin/products', adminMiddleware, async (req: any, res: any) => {
   const { page = '1', limit = '50', search, brand, series } = req.query
   const skip = (Number(page) - 1) * Number(limit)
   const take = Number(limit)
@@ -161,7 +168,7 @@ function validateProduct(data: any) {
   return null
 }
 
-app.post('/api/admin/products', authMiddleware, upload.single('image'), async (req: any, res: any) => {
+app.post('/api/admin/products', adminMiddleware, upload.single('image'), async (req: any, res: any) => {
   const data = buildProductData(req)
   const err = validateProduct(data)
   if (err) return res.status(400).json({ error: err })
@@ -173,7 +180,7 @@ app.post('/api/admin/products', authMiddleware, upload.single('image'), async (r
   }
 })
 
-app.put('/api/admin/products/:id', authMiddleware, upload.single('image'), async (req: any, res: any) => {
+app.put('/api/admin/products/:id', adminMiddleware, upload.single('image'), async (req: any, res: any) => {
   const id = Number(req.params.id)
   const data = buildProductData(req)
   const err = validateProduct(data)
@@ -186,30 +193,30 @@ app.put('/api/admin/products/:id', authMiddleware, upload.single('image'), async
   }
 })
 
-app.delete('/api/admin/products/:id', authMiddleware, async (req, res) => {
+app.delete('/api/admin/products/:id', adminMiddleware, async (req, res) => {
   await prisma.product.delete({ where: { id: Number(req.params.id) } })
   res.json({ ok: true })
 })
 
 // --- Admin Brand CRUD ---
-app.get('/api/admin/brands', authMiddleware, async (_req, res) => {
+app.get('/api/admin/brands', adminMiddleware, async (_req, res) => {
   const brands = await prisma.brand.findMany({ include: { _count: { select: { products: true } } } })
   res.json(brands)
 })
 
-app.post('/api/admin/brands', authMiddleware, async (req, res) => {
+app.post('/api/admin/brands', adminMiddleware, async (req, res) => {
   const { name, slug } = req.body
   if (!name) return res.status(400).json({ error: 'Tên thương hiệu là bắt buộc' })
   const brand = await prisma.brand.create({ data: { name, slug: slug || name.toLowerCase() } })
   res.json(brand)
 })
 
-app.put('/api/admin/brands/:id', authMiddleware, async (req, res) => {
+app.put('/api/admin/brands/:id', adminMiddleware, async (req, res) => {
   const brand = await prisma.brand.update({ where: { id: Number(req.params.id) }, data: req.body })
   res.json(brand)
 })
 
-app.delete('/api/admin/brands/:id', authMiddleware, async (req, res) => {
+app.delete('/api/admin/brands/:id', adminMiddleware, async (req, res) => {
   const count = await prisma.product.count({ where: { brandId: Number(req.params.id) } })
   if (count > 0) return res.status(400).json({ error: 'Thương hiệu này đang có sản phẩm, không thể xoá' })
   await prisma.brand.delete({ where: { id: Number(req.params.id) } })
@@ -217,7 +224,7 @@ app.delete('/api/admin/brands/:id', authMiddleware, async (req, res) => {
 })
 
 // --- Admin User CRUD ---
-app.get('/api/admin/users', authMiddleware, async (_req, res) => {
+app.get('/api/admin/users', adminMiddleware, async (_req, res) => {
   const users = await prisma.user.findMany({
     select: { id: true, email: true, name: true, role: true, createdAt: true },
     orderBy: { createdAt: 'desc' },
@@ -225,7 +232,7 @@ app.get('/api/admin/users', authMiddleware, async (_req, res) => {
   res.json(users)
 })
 
-app.delete('/api/admin/users/:id', authMiddleware, async (req, res) => {
+app.delete('/api/admin/users/:id', adminMiddleware, async (req, res) => {
   await prisma.user.delete({ where: { id: Number(req.params.id) } })
   res.json({ ok: true })
 })
@@ -245,7 +252,7 @@ async function getStats() {
   }
 }
 
-app.get('/api/admin/stats', authMiddleware, async (_req, res) => {
+app.get('/api/admin/stats', adminMiddleware, async (_req, res) => {
   res.json(await getStats())
 })
 
