@@ -32,7 +32,7 @@ export function Header({ cartItemCount = 0 }: HeaderProps) {
         margin: '0 auto',
         display: 'flex',
         alignItems: 'center',
-        justify: 'space-between',
+        justifyContent: 'space-between',
         gap: isMobile ? SPACING.xs : SPACING.md
       }}>
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>

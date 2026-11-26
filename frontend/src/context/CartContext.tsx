@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { Product, CartItem } from '../types';
-import { addToCart, fetchCart, deleteCartItem, placeOrder } from '../services/api';
+import { addToCart, fetchCart, deleteCartItem } from '../services/api';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -64,7 +64,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const addToCartFn = async (product: Product) => {
     if (!token) return;
     try {
-      await addToCart(token, product.id);
+      await addToCart(token, Number(product.id));
       await loadCart();
     } catch (e) {
       console.error('Add to cart failed', e);
@@ -74,7 +74,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const removeFromCart = async (productId: string) => {
     if (!token) return;
     const item = cartItems.find(i => i.productId === productId);
-    if (!item) return;
+    if (!item?.id) return;
     try {
       await deleteCartItem(token, item.id);
       setCartItems(prev => prev.filter(i => i.productId !== productId));

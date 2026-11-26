@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 
 export function Checkout() {
   const { cartItems, totalAmount, clearCart, loading: cartLoading } = useCart();
-  const { user, isAuthenticated } = useUser();
+  const { isAuthenticated } = useUser();
   const navigate = useNavigate();
   const [shippingAddress, setShippingAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('COD');
