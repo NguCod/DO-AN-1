@@ -39,7 +39,7 @@ export function Checkout() {
       }
       await placeOrder(token);
       clearCart(); // Clear local cart after successful order
-      navigate('/order-success'); // Navigate to a success page
+      navigate('/orders'); // Show order history
     } catch (err: any) {
       setError(err.message || 'Đặt hàng thất bại');
     } finally {
@@ -60,7 +60,7 @@ export function Checkout() {
         {cartItems.map((item) => (
           <div key={item.productId} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: SPACING.sm, fontSize: '1rem', color: COLORS.textMain }}>
             <span>{item.product.name} ({item.quantity})</span>
-            <span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(parseFloat(item.product.price) * item.quantity)}</span>
+            <span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format((item.product.price as number) * item.quantity)}</span>
           </div>
         ))}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: SPACING.md, fontSize: '1.125rem', fontWeight: 700, borderTop: `1px solid ${COLORS.border}`, paddingTop: SPACING.md }}>

@@ -260,3 +260,17 @@ export async function placeOrder(token: string) {
   if (!res.ok) throw new Error('Order failed')
   return res.json()
 }
+
+export async function fetchOrders(token: string) {
+  const res = await fetch(`${API}/orders`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+  if (!res.ok) throw new Error('Failed to load orders')
+  return res.json()
+}
+
+export async function fetchPublicStats(): Promise<{ totalProducts: number; totalBrands: number; totalSeries: number }> {
+  const res = await fetch(`${API}/public/stats`)
+  if (!res.ok) return { totalProducts: 0, totalBrands: 0, totalSeries: 0 }
+  return res.json()
+}

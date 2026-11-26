@@ -8,6 +8,7 @@ import { COLORS, SPACING, TYPOGRAPHY } from '../../theme/constants';
 interface LayoutProps {
   children: ReactNode;
   cartItemCount?: number;
+  user?: any;
 }
 
 const FOOTER_CATEGORIES = [

@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SPACING, COLORS } from '../../theme/constants'
 import { ArrowRight, Plus, Minus, Trash2 } from 'lucide-react'
-import { fetchCart, deleteCartItem, addToCart as apiAddToCart } from '../../services/api'
+import { fetchCart, deleteCartItem } from '../../services/api'
 import { useUser } from '../../context/UserContext'
 
 export function CartView() {
-  const { user, isAuthenticated } = useUser()
+  const { isAuthenticated } = useUser()
   const [cartItems, setCartItems] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
