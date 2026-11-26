@@ -115,27 +115,20 @@ export function Products() {
 
         {/* Product list */}
         <div style={{ flex: 1 }}>
-          {loading ? (
-            <div style={{ textAlign: 'center', padding: SPACING.xl }}>Đang tải...</div>
-          ) : products.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: SPACING.xl, color: COLORS.textSecondary }}>
-              <p>Không tìm thấy sản phẩm phù hợp</p>
-            </div>
-          ) : (
-            <ProductList
-              products={products.map((p: any) => ({
-                id: String(p.id),
-                name: p.name,
-                brand: p.brand?.name || '',
-                price: formatPrice(p.price),
-                description: p.playstyle || '',
-                category: p.series,
-                imageUrl: p.imageUrl || '/placeholder.jpg',
-                stock: 99,
-                attributes: { weight: p.weight, balance: p.balance, stiffness: p.stiffness },
-              }))}
-            />
-          )}
+          <ProductList
+            isLoading={loading}
+            products={products.map((p: any) => ({
+              id: String(p.id),
+              name: p.name,
+              brand: p.brand?.name || '',
+              price: formatPrice(p.price),
+              description: p.playstyle || '',
+              category: p.series,
+              imageUrl: p.imageUrl || '/placeholder.jpg',
+              stock: 99,
+              attributes: { weight: p.weight, balance: p.balance, stiffness: p.stiffness },
+            }))}
+          />
         </div>
       </div>
     </div>
