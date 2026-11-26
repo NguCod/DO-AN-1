@@ -16,16 +16,15 @@ export function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Mock login — replace with real API call when backend is ready
-    setTimeout(() => {
-      login({
-        id: 'user-1',
-        name: email.split('@')[0],
-        email: email,
+    login(email, password)
+      .then(() => {
+        setIsLoading(false);
+        navigate('/');
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        alert(err.message || 'Đăng nhập thất bại');
       });
-      setIsLoading(false);
-      navigate('/');
-    }, 1000);
   };
 
   return (

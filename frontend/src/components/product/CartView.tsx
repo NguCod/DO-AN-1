@@ -5,6 +5,16 @@ import { ArrowRight, Plus, Minus, Trash2 } from 'lucide-react'
 import { fetchCart, deleteCartItem } from '../../services/api'
 import { useUser } from '../../context/UserContext'
 
+const parsePrice = (priceStr: string): number => {
+  if (!priceStr) return 0
+  const map: Record<string, number> = { 'triệu': 1_000_000, 'tỷ': 1_000_000_000 }
+  const clean = priceStr.toLowerCase().replace(/[\d,.–]/g, '').trim()
+  const nums = priceStr.match(/[\d,.]+/g)
+  if (!nums || nums.length === 0) return 0
+  const num = parseFloat(nums[nums.length - 1].replace(',', '.'))
+  return num * (map[clean] || 1)
+}
+
 export function CartView() {
   const { isAuthenticated } = useUser()
   const [cartItems, setCartItems] = useState<any[]>([])
@@ -17,7 +27,14 @@ export function CartView() {
     setLoading(true)
     try {
       const cart = await fetchCart(token)
-      setCartItems(cart.items || [])
+      const items = (cart.items || []).map((item: any) => ({
+        ...item,
+        product: {
+          ...item.product,
+          price: parsePrice(item.priceAtTime)
+        }
+      }))
+      setCartItems(items)
     } catch (e) {
       console.error('Failed to load cart', e)
     } finally {
@@ -54,7 +71,7 @@ export function CartView() {
     navigate('/checkout')
   }
 
-  const totalAmount = cartItems.reduce((sum, item) => sum + parseFloat(item.priceAtTime.replace(/[^\d.]/g, '')) * item.quantity, 0)
+  const totalAmount = cartItems.reduce((sum, item) => sum + (item.product?.price || 0) * item.quantity, 0)
 
   if (loading) {
     return (
@@ -99,7 +116,7 @@ export function CartView() {
                   <Plus size={16} />
                 </button>
                 <span style={{ marginLeft: 'auto', fontSize: '1rem', fontWeight: 700, color: COLORS.primary }}>
-                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(parseFloat(item.priceAtTime.replace(/[^\d.]/g, '')) * item.quantity)}
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(item.product.price * item.quantity)}
                 </span>
               </div>
             </div>

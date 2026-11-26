@@ -7,8 +7,8 @@ import { SPACING, COLORS } from '../../theme/constants';
 import { ArrowRight } from 'lucide-react';
 
 export function Checkout() {
-  const { cartItems, totalAmount, clearCart } = useCart();
-  const { user } = useUser();
+  const { cartItems, totalAmount, clearCart, loading: cartLoading } = useCart();
+  const { user, isAuthenticated } = useUser();
   const navigate = useNavigate();
   const [shippingAddress, setShippingAddress] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('COD');
@@ -16,15 +16,15 @@ export function Checkout() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login'); // Redirect to login if not authenticated
-    } else if (cartItems.length === 0) {
-      navigate('/cart'); // Redirect to cart if empty
+    if (!isAuthenticated) {
+      navigate('/login');
+    } else if (!cartLoading && cartItems.length === 0) {
+      navigate('/cart');
     }
-  }, [user, cartItems, navigate]);
+  }, [isAuthenticated, cartLoading, cartItems.length, navigate]);
 
   const handlePlaceOrder = async () => {
-    if (!user || cartItems.length === 0) return;
+    if (!isAuthenticated || cartItems.length === 0) return;
 
     setLoading(true);
     setError('');
@@ -47,8 +47,12 @@ export function Checkout() {
     }
   };
 
-  if (!user || cartItems.length === 0) {
-    return null; // Or a loading/redirecting message
+  if (!isAuthenticated || cartLoading) {
+    return <div style={{ padding: SPACING.xl, textAlign: 'center' }}>Đang tải...</div>;
+  }
+
+  if (cartItems.length === 0) {
+    return null;
   }
 
   return (
@@ -60,7 +64,7 @@ export function Checkout() {
         {cartItems.map((item) => (
           <div key={item.productId} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: SPACING.sm, fontSize: '1rem', color: COLORS.textMain }}>
             <span>{item.product.name} ({item.quantity})</span>
-            <span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format((item.product.price as number) * item.quantity)}</span>
+            <span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(item.product.price * item.quantity)}</span>
           </div>
         ))}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: SPACING.md, fontSize: '1.125rem', fontWeight: 700, borderTop: `1px solid ${COLORS.border}`, paddingTop: SPACING.md }}>
