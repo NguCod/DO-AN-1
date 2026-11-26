@@ -5,6 +5,16 @@ import { fetchOrders } from '../../services/api'
 import { useUser } from '../../context/UserContext'
 import { ArrowLeft } from 'lucide-react'
 
+const parsePrice = (priceStr: string): number => {
+  if (!priceStr) return 0
+  const map: Record<string, number> = { 'triệu': 1_000_000, 'tỷ': 1_000_000_000 }
+  const clean = priceStr.toLowerCase().replace(/[\d,.–]/g, '').trim()
+  const nums = priceStr.match(/[\d,.]+/g)
+  if (!nums || nums.length === 0) return 0
+  const num = parseFloat(nums[nums.length - 1].replace(',', '.'))
+  return num * (map[clean] || 1)
+}
+
 export function OrderHistory() {
   const { isAuthenticated } = useUser()
   const navigate = useNavigate()
@@ -101,14 +111,14 @@ export function OrderHistory() {
               {(order.items || []).map((item: any) => (
                 <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
                   <span>{item.product?.name || 'Sản phẩm'} x{item.quantity}</span>
-                  <span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(parseFloat(item.priceAtTime?.replace(/[^\d.]/g, '') || '0'))}</span>
+                  <span>{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(parsePrice(item.priceAtTime))}</span>
                 </div>
               ))}
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: `1px solid ${COLORS.border}`, paddingTop: SPACING.md, fontSize: '1rem', fontWeight: 700 }}>
               <span>Tổng cộng</span>
               <span style={{ color: COLORS.primary }}>
-                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(parseFloat(order.totalAmount?.replace(/[^\d.]/g, '') || '0'))}
+                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND', maximumFractionDigits: 0 }).format(parsePrice(order.totalAmount))}
               </span>
             </div>
           </div>

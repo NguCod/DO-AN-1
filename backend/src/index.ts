@@ -6,6 +6,17 @@ import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
 
+// Price string parser: "6 triệu" -> 6000000, "1,2 tỷ" -> 1200000000, "450000" -> 450000
+function parsePrice(priceStr: string): number {
+  if (!priceStr) return 0
+  const map: Record<string, number> = { 'triệu': 1_000_000, 'tỷ': 1_000_000_000 }
+  const clean = priceStr.toLowerCase().replace(/[\d,.–]/g, '').trim()
+  const nums = priceStr.match(/[\d,.]+/g)
+  if (!nums || nums.length === 0) return 0
+  const num = parseFloat(nums[nums.length - 1].replace(',', '.'))
+  return num * (map[clean] || 1)
+}
+
 const app = express()
 const prisma = new PrismaClient()
 const PORT = process.env.PORT || 3000
@@ -307,7 +318,7 @@ app.post('/api/orders', authMiddleware, async (req: any, res: any) => {
   const cart = await prisma.cart.findUnique({ where: { userId }, include: { items: { include: { product: true } } } })
   if (!cart || cart.items.length === 0) return res.status(400).json({ error: 'Giỏ hàng trống' })
   const totalAmount = cart.items.reduce((sum: number, item: any) => {
-    const price = parseFloat(item.priceAtTime.replace(/[^\d.]/g, '')) || 0
+    const price = parsePrice(item.priceAtTime)
     return sum + price * item.quantity
   }, 0).toString()
   const order = await prisma.order.create({
