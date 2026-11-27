@@ -39,12 +39,12 @@ Không được dùng dữ liệu giả lập này để khẳng định giá ho
 
 **TC01 – Ngân sách dưới 2 triệu**
 
-- Input: Tôi có 2 triệu, hãy tư vấn vợt cầu lông phù hợp.
+- Input: Tôi có ngân sách tối đa 1,9 triệu, hãy tư vấn vợt cầu lông phù hợp.
 - Expected: Đề xuất P04 nếu dữ liệu được cung cấp; giá không vượt ngân sách.
 
 **TC02 – Ngân sách 3 triệu**
 
-- Input: Tư vấn cho tôi một cây vợt khoảng 3 triệu.
+- Input: Tôi có ngân sách tối đa 3 triệu, hãy tư vấn một cây vợt cầu lông phù hợp.
 - Expected: Có thể đề xuất P02 hoặc P03, giải thích lựa chọn.
 
 **TC03 – Ngân sách rất thấp**
@@ -157,13 +157,15 @@ Không được dùng dữ liệu giả lập này để khẳng định giá ho
 
 **TC23 – Thay đổi ngân sách giữa hội thoại**
 
-- Input: Ban đầu tôi có 3 triệu, nhưng giờ chỉ còn 2 triệu.
-- Expected: Cập nhật ngân sách mới và không tiếp tục đề xuất vượt ngân sách.
+- Input: Tôi có ngân sách 3 triệu. Tôi muốn đổi ngân sách tối đa xuống còn 2 triệu, hãy tư vấn lại.
+- Expected: Cập nhật ngân sách tối đa thành 2 triệu, không sử dụng mức 3 triệu cũ và chỉ đề xuất sản phẩm có giá không vượt 2 triệu.
 
 **TC24 – Ghi nhớ nhu cầu trong hội thoại**
 
-- Input: Tôi mới chơi, ngân sách 2 triệu. (Tin nhắn tiếp theo) Hãy đề xuất một mẫu.
-- Expected: Sử dụng thông tin đã cung cấp trong cùng phiên hội thoại nếu lịch sử được truyền vào.
+- Input:
+  - Lượt 1: Tôi mới chơi cầu lông, ngân sách 2 triệu.
+  - Lượt 2: Hãy đề xuất một cây vợt phù hợp.
+- Expected: Ghi nhớ người dùng mới chơi và ngân sách 2 triệu; đề xuất vợt phù hợp có giá không vượt 2 triệu, không hỏi lại thông tin đã cung cấp.
 
 ### Nhóm F – Giới hạn phạm vi
 
@@ -200,7 +202,7 @@ Không được dùng dữ liệu giả lập này để khẳng định giá ho
 - Expected: Từ chối bịa dữ liệu và chỉ sử dụng thông tin đã được xác thực.
 
 
-### Nhóm F – Kiểm thử ngân sách nâng cao và History
+### Nhóm H – Kiểm thử ngân sách nâng cao và History
 
 **TC31 – Ngân sách từ 3 đến 5 triệu**
 
@@ -210,12 +212,21 @@ Không được dùng dữ liệu giả lập này để khẳng định giá ho
 **TC32 – Nhận diện giá hỗn hợp đơn vị 900 nghìn–1,5 triệu**
 
 - Input: Một sản phẩm kiểm thử có giá được ghi là "900 nghìn–1,5 triệu". Hãy xác định khoảng giá của sản phẩm.
-- Expected: Nhận diện đúng giá thấp nhất là 900.000đ và giá cao nhất là 1.500.000đ. Không đọc nhầm thành 900 triệu hoặc 1,5 nghìn đồng. Không gán mức giá này cho sản phẩm P01–P04.
+- Expected:
+  - Nhận diện đúng khoảng giá từ 900.000đ đến 1.500.000đ.
+  - Chuẩn hóa giá trị: min = 900000, max = 1500000 (VND).
+  - Không đọc nhầm thành 900 triệu hoặc 1,5 nghìn đồng.
+  - Không gán mức giá này cho sản phẩm P01–P04.
 
 **TC33 – Nhận diện giá hỗn hợp đơn vị 3–3,5 triệu**
 
 - Input: Một sản phẩm kiểm thử có giá được ghi là "3–3,5 triệu". Hãy xác định khoảng giá của sản phẩm.
-- Expected: Nhận diện đúng giá thấp nhất là 3.000.000đ và giá cao nhất là 3.500.000đ. Không làm mất phần thập phân 0,5 triệu. Không gán mức giá này cho sản phẩm P01–P04.
+- Expected:
+  - Nhận diện đúng khoảng giá từ 3.000.000đ đến 3.500.000đ.
+  - Chuẩn hóa giá trị: min = 3000000, max = 3500000 (VND).
+  - Không làm mất phần thập phân 0,5 triệu.
+  - P01 giá 3.500.000đ có thể nằm đúng tại cận trên của khoảng giá, nếu được dùng làm dữ liệu đối chiếu; không tự gán khoảng giá kiểm thử này cho P01–P04.
+  - Không tự bịa sản phẩm.
 
 **TC34 – Khách hàng thay đổi ngân sách trong hội thoại nhiều lượt**
 
