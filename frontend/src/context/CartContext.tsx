@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { ReactNode } from 'react';
 import type { Product, CartItem } from '../types';
 import { addToCart, fetchCart, deleteCartItem } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 interface CartContextType {
   cartItems: CartItem[];
@@ -19,7 +20,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   // Price string parser: "6 triệu" -> 6000000, "1,2 tỷ" -> 1200000000, "450000" -> 450000, "900 nghìn–1,5 triệu" -> 1500000
   const parsePrice = (priceStr: string): number => {
@@ -39,14 +40,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     return 0;
   };
 
-  const loadCart = async () => {
-    if (!token) {
+  const loadCart = useCallback(async () => {
+    const currentToken = localStorage.getItem('token');
+    if (!currentToken) {
       setLoading(false);
       return;
     }
     setLoading(true);
     try {
-      const cart = await fetchCart(token);
+      const cart = await fetchCart(currentToken);
       const items = (cart.items || []).map((item: any) => ({
         id: item.id,
         productId: String(item.productId),
@@ -62,17 +64,20 @@ export function CartProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     loadCart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [navigate]);
 
   const addToCartFn = async (product: Product) => {
-    if (!token) return;
+    const currentToken = localStorage.getItem('token');
+    if (!currentToken) {
+      navigate('/login');
+      return;
+    }
     try {
-      await addToCart(token, Number(product.id));
+      await addToCart(currentToken, Number(product.id));
       await loadCart();
     } catch (e) {
       console.error('Add to cart failed', e);
@@ -80,11 +85,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const removeFromCart = async (productId: string) => {
-    if (!token) return;
+    const currentToken = localStorage.getItem('token');
+    if (!currentToken) return;
     const item = cartItems.find(i => i.productId === productId);
     if (!item?.id) return;
     try {
-      await deleteCartItem(token, item.id);
+      await deleteCartItem(currentToken, item.id);
       setCartItems(prev => prev.filter(i => i.productId !== productId));
     } catch (e) {
       console.error('Remove from cart failed', e);
@@ -92,7 +98,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
 
   const updateQuantity = async (productId: string, quantity: number) => {
-    if (!token) return;
+    const currentToken = localStorage.getItem('token');
+    if (!currentToken) return;
     if (quantity <= 0) {
       await removeFromCart(productId);
       return;
