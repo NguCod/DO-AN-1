@@ -20,7 +20,7 @@ export function formatPrice(priceStr: string): number {
     'triệu': 1_000_000,
     'tỷ': 1_000_000_000,
   };
-  const clean = priceStr.toLowerCase().replace(/[\d,.–]/g, '').trim();
+  const clean = priceStr.toLowerCase().replace(/[\d,.–-]/g, '').trim();
   const nums = priceStr.match(/[\d,.]+/g);
   if (!nums || nums.length === 0) return 0;
   const num = parseFloat(nums[nums.length - 1].replace(',', '.'));
@@ -273,4 +273,15 @@ export async function fetchPublicStats(): Promise<{ totalProducts: number; total
   const res = await fetch(`${API}/public/stats`)
   if (!res.ok) return { totalProducts: 0, totalBrands: 0, totalSeries: 0 }
   return res.json()
+}
+
+export async function sendChatMessage(message: string, history: { role: string; content: string }[]): Promise<string> {
+  const res = await fetch(`${API}/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, history }),
+  })
+  if (!res.ok) throw new Error('AI chat request failed')
+  const data = await res.json()
+  return data.message
 }

@@ -24,7 +24,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const parsePrice = (priceStr: string): number => {
     if (!priceStr) return 0;
     const map: Record<string, number> = { 'triệu': 1_000_000, 'tỷ': 1_000_000_000 };
-    const clean = priceStr.toLowerCase().replace(/[\d,.–]/g, '').trim();
+    const clean = priceStr.toLowerCase().replace(/[\d,.–-]/g, '').trim();
     const nums = priceStr.match(/[\d,.]+/g);
     if (!nums || nums.length === 0) return 0;
     const num = parseFloat(nums[nums.length - 1].replace(',', '.'));

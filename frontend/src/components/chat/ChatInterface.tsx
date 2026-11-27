@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { COLORS, SPACING } from '../../theme/constants';
+import { sendChatMessage } from '../../services/api';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -23,25 +24,44 @@ export function ChatInterface({ onClose }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prevMsgCount = useRef(0);
+
+  // Auto-scroll when messages change
+  useEffect(() => {
+    if (messages.length !== prevMsgCount.current) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+      prevMsgCount.current = messages.length;
+    }
+  }, [messages.length]);
+
+  const buildHistory = () =>
+    messages.map((m) => ({ role: m.role, content: m.content }));
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: inputValue, timestamp: new Date() };
-    setMessages(prev => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInputValue('');
     setIsLoading(true);
 
-    setTimeout(() => {
-      const botMessage: Message = {
+    try {
+      const reply = await sendChatMessage(userMessage.content, buildHistory());
+      const botMessage: Message = { role: 'assistant', content: reply, timestamp: new Date() };
+      setMessages((prev) => [...prev, botMessage]);
+    } catch {
+      const errMsg: Message = {
         role: 'assistant',
-        content: `Tôi sẽ tìm hiểu về: "${userMessage.content}" cho bạn ngay. (Tính năng tư vấn AI đang phát triển)`,
+        content: 'Xin lỗi, không thể kết nối tới máy chủ AI. Vui lòng thử lại sau.',
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, botMessage]);
+      setMessages((prev) => [...prev, errMsg]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -52,13 +72,25 @@ export function ChatInterface({ onClose }: ChatInterfaceProps) {
       </div>
 
       <div style={{ flex: 1, overflowY: 'auto', padding: SPACING.md, display: 'flex', flexDirection: 'column', gap: SPACING.sm }}>
+        {messages.length === 0 && !isLoading && (
+          <div style={{ textAlign: 'center', color: COLORS.textSecondary, fontSize: '0.875rem', padding: SPACING.md }}>
+            Xin chào! 👋 Tôi là trợ lý tư vấn cầu lông của Ace Badminton.<br />
+            Hãy cho tôi biết trình độ, lối chơi và ngân sách của bạn nhé!
+          </div>
+        )}
         {messages.map((message) => (
-          <div key={message.timestamp.getTime()} style={{ alignSelf: message.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '85%', padding: SPACING.sm, borderRadius: '0.5rem', backgroundColor: message.role === 'user' ? COLORS.primary : COLORS.surface, color: message.role === 'user' ? COLORS.background : COLORS.textMain, fontSize: '0.875rem' }}>
+          <div key={message.timestamp.getTime()} style={{ alignSelf: message.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '90%', padding: SPACING.sm, borderRadius: '0.5rem', backgroundColor: message.role === 'user' ? COLORS.primary : COLORS.surface, color: message.role === 'user' ? COLORS.background : COLORS.textMain, fontSize: '0.875rem', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
             <div>{message.content}</div>
             <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>{message.timestamp.toLocaleTimeString()}</div>
           </div>
         ))}
-        {isLoading && <div style={{ color: COLORS.textSecondary, fontStyle: 'italic' }}>AI đang suy nghĩ...</div>}
+        {isLoading && (
+          <div style={{ color: COLORS.textSecondary, fontStyle: 'italic', fontSize: '0.875rem', alignSelf: 'flex-start', padding: SPACING.xs }}>
+            <span style={{ display: 'inline-block', width: '12px', height: '12px', border: `2px solid ${COLORS.border}`, borderTopColor: COLORS.primary, borderRadius: '50%', animation: 'spin 0.8s linear infinite', marginRight: '0.5rem', verticalAlign: 'middle' }} />
+            AI đang tư vấn...
+          </div>
+        )}
+        <div ref={messagesEndRef} />
       </div>
 
       <div style={{ padding: SPACING.md, borderTop: `1px solid ${COLORS.border}` }}>

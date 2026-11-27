@@ -5,12 +5,13 @@ import { PrismaClient } from '@prisma/client'
 import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
+import { handleChatMessage } from './ai/llmService'
 
 // Price string parser: "6 triệu" -> 6000000, "1,2 tỷ" -> 1200000000, "450000" -> 450000
 function parsePrice(priceStr: string): number {
   if (!priceStr) return 0
   const map: Record<string, number> = { 'triệu': 1_000_000, 'tỷ': 1_000_000_000 }
-  const clean = priceStr.toLowerCase().replace(/[\d,.–]/g, '').trim()
+  const clean = priceStr.toLowerCase().replace(/[\d,.–-]/g, '').trim()
   const nums = priceStr.match(/[\d,.]+/g)
   if (!nums || nums.length === 0) return 0
   const num = parseFloat(nums[nums.length - 1].replace(',', '.'))
@@ -88,6 +89,20 @@ app.get('/api/products/:id', async (req, res) => {
 app.get('/api/brands', async (_req, res) => {
   const brands = await prisma.brand.findMany({ include: { _count: { select: { products: true } } } })
   res.json(brands)
+})
+
+// --- AI Chat ---
+app.post('/api/chat', async (req, res) => {
+  const { message, history = [] } = req.body
+  if (!message || typeof message !== 'string') {
+    return res.status(400).json({ error: 'Thiếu message' })
+  }
+  try {
+    const response = await handleChatMessage(message, history)
+    res.json({ message: response })
+  } catch (e: any) {
+    res.status(500).json({ error: 'Lỗi khi xử lý yêu cầu AI' })
+  }
 })
 
 // --- Customer Auth ---
