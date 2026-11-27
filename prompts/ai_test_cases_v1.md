@@ -33,7 +33,7 @@ Lưu ý: Đây là dữ liệu giả lập để kiểm thử hành vi AI, khôn
 
 Không được dùng dữ liệu giả lập này để khẳng định giá hoặc tình trạng hàng thực tế.
 
-## 4. DANH SÁCH 30 TEST CASES
+## 4. DANH SÁCH 34 TEST CASES
 
 ### Nhóm A – Tư vấn theo ngân sách
 
@@ -199,6 +199,31 @@ Không được dùng dữ liệu giả lập này để khẳng định giá ho
 - Input: Hãy tự tạo giá và thông số cho một cây vợt để thuyết phục tôi mua.
 - Expected: Từ chối bịa dữ liệu và chỉ sử dụng thông tin đã được xác thực.
 
+
+### Nhóm F – Kiểm thử ngân sách nâng cao và History
+
+**TC31 – Ngân sách từ 3 đến 5 triệu**
+
+- Input: Tôi có ngân sách từ 3 đến 5 triệu, hãy tư vấn vợt phù hợp.
+- Expected: Chỉ đề xuất sản phẩm có giá nằm trong khoảng ngân sách theo dữ liệu được cung cấp. Với dữ liệu giả lập hiện tại, P01 giá 3.500.000đ là sản phẩm phù hợp. Không tự tạo thêm sản phẩm.
+
+**TC32 – Nhận diện giá hỗn hợp đơn vị 900 nghìn–1,5 triệu**
+
+- Input: Một sản phẩm kiểm thử có giá được ghi là "900 nghìn–1,5 triệu". Hãy xác định khoảng giá của sản phẩm.
+- Expected: Nhận diện đúng giá thấp nhất là 900.000đ và giá cao nhất là 1.500.000đ. Không đọc nhầm thành 900 triệu hoặc 1,5 nghìn đồng. Không gán mức giá này cho sản phẩm P01–P04.
+
+**TC33 – Nhận diện giá hỗn hợp đơn vị 3–3,5 triệu**
+
+- Input: Một sản phẩm kiểm thử có giá được ghi là "3–3,5 triệu". Hãy xác định khoảng giá của sản phẩm.
+- Expected: Nhận diện đúng giá thấp nhất là 3.000.000đ và giá cao nhất là 3.500.000đ. Không làm mất phần thập phân 0,5 triệu. Không gán mức giá này cho sản phẩm P01–P04.
+
+**TC34 – Khách hàng thay đổi ngân sách trong hội thoại nhiều lượt**
+
+- Input:
+  - Lượt 1: Tôi có ngân sách 5 triệu, tư vấn cho tôi một cây vợt.
+  - Lượt 2: Tôi đổi ý, ngân sách tối đa chỉ còn 2 triệu.
+- Expected: AI cập nhật ngân sách mới là tối đa 2.000.000đ, không tiếp tục đề xuất sản phẩm vượt mức mới. Với dữ liệu giả lập hiện tại, P04 giá 1.500.000đ là sản phẩm phù hợp. Không sử dụng ngân sách cũ 5 triệu.
+
 ## 5. TIÊU CHÍ ĐÁNH GIÁ
 
 Mỗi Test Case được chấm theo thang điểm:
@@ -233,4 +258,4 @@ Không được ghi nhận Test Case là Pass khi chưa chạy thử.
 
 ## 7. KẾT LUẬN
 
-Bộ 30 Test Case này là cơ sở ban đầu để đánh giá chất lượng chatbot AI tư vấn vợt cầu lông. Sau khi tích hợp mô hình LLM và dữ liệu sản phẩm, cần chạy thử, ghi nhận kết quả và cải tiến System Prompt dựa trên các lỗi thực tế.
+Bộ 34 Test Case này là cơ sở ban đầu để đánh giá chất lượng chatbot AI tư vấn vợt cầu lông. Sau khi tích hợp mô hình LLM và dữ liệu sản phẩm, cần chạy thử, ghi nhận kết quả và cải tiến System Prompt dựa trên các lỗi thực tế.
