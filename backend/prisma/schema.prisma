@@ -1,0 +1,85 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Brand {
+  id       Int       @id @default(autoincrement())
+  name     String
+  slug     String    @unique
+  products Product[] @relation("BrandProducts")
+}
+
+model Product {
+  id         Int      @id @default(autoincrement())
+  name       String
+  series     String
+  price      String
+  weight     String
+  stiffness  String
+  balance    String
+  playstyle  String
+  imageUrl   String
+  brandId    Int
+  brand      Brand    @relation("BrandProducts", fields: [brandId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  role      String   @default("customer")
+  createdAt DateTime @default(now())
+  cart      Cart?
+  orders    Order[]
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement())
+  userId    Int        @unique
+  user      User       @relation(fields: [userId], references: [id])
+  items     CartItem[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model CartItem {
+  id         Int     @id @default(autoincrement())
+  cartId     Int
+  cart       Cart    @relation(fields: [cartId], references: [id])
+  productId  Int
+  product    Product @relation(fields: [productId], references: [id])
+  quantity   Int     @default(1)
+  priceAtTime String
+}
+
+model Order {
+  id           Int         @id @default(autoincrement())
+  userId       Int
+  user         User        @relation(fields: [userId], references: [id])
+  totalAmount  String
+  status       String      @default("pending")
+  items        OrderItem[]
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model OrderItem {
+  id           Int      @id @default(autoincrement())
+  orderId      Int
+  order        Order    @relation(fields: [orderId], references: [id])
+  productId    Int
+  product      Product  @relation(fields: [productId], references: [id])
+  quantity     Int
+  priceAtTime  String
+  shippedAt    DateTime?
+}

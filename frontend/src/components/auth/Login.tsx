@@ -16,16 +16,15 @@ export function Login() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Mock login — replace with real API call when backend is ready
-    setTimeout(() => {
-      login({
-        id: 'user-1',
-        name: email.split('@')[0],
-        email: email,
+    login(email, password)
+      .then(() => {
+        setIsLoading(false);
+        navigate('/');
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        alert(err.message || 'Đăng nhập thất bại');
       });
-      setIsLoading(false);
-      navigate('/');
-    }, 1000);
   };
 
   return (
@@ -34,7 +33,7 @@ export function Login() {
         <div style={{ backgroundColor: COLORS.background, borderRadius: '1rem', padding: SPACING.xl, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
           <div style={{ textAlign: 'center', marginBottom: SPACING.xl }}>
             <Link to="/" style={{ display: 'inline-block', fontSize: '1.75rem', fontWeight: 800, color: COLORS.primary, textDecoration: 'none', marginBottom: SPACING.md }}>
-              ⚡ BadmintonAI
+              ⚡ Ace Badminton
             </Link>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: SPACING.xs }}>Đăng nhập</h1>
             <p style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>Chào mừng trở lại! Vui lòng đăng nhập.</p>

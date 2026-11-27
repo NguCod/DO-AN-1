@@ -36,3 +36,13 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+
+# Claude Code (personal settings, plugins, state — do not push)
+.claude/
+.claude.json
+skills_mcp_history.txt
+
+# Local dev database
+backend/prisma/dev.db
+backend/prisma/dev.db.bak
+backend/uploads/

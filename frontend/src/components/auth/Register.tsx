@@ -40,7 +40,7 @@ export function Register() {
         <div style={{ backgroundColor: COLORS.background, borderRadius: '1rem', padding: SPACING.xl, boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}>
           <div style={{ textAlign: 'center', marginBottom: SPACING.lg }}>
             <Link to="/" style={{ display: 'inline-block', fontSize: '1.75rem', fontWeight: 800, color: COLORS.primary, textDecoration: 'none', marginBottom: SPACING.md }}>
-              ⚡ BadmintonAI
+              ⚡ Ace Badminton
             </Link>
             <h1 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: SPACING.xs }}>Đăng ký tài khoản</h1>
             <p style={{ color: COLORS.textSecondary, fontSize: '0.875rem' }}>Tạo tài khoản để mua sắm và nhận tư vấn AI.</p>

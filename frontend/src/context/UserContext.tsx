@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import type { ReactNode } from 'react';
+import { customerLogin } from '../services/api';
 
 interface User {
   id: string;
@@ -7,11 +8,12 @@ interface User {
   email: string;
   phone?: string;
   address?: string;
+  role?: string;
 }
 
 interface UserContextType {
   user: User | null;
-  login: (user: User) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
 }
@@ -19,14 +21,28 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export function UserProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-
-  const login = (userData: User) => {
+  const [user, setUser] = useState<User | null>(() => {
+    const token = localStorage.getItem('token');
+    const stored = localStorage.getItem('user');
+    return token && stored ? JSON.parse(stored) : null;
+  });
+  const login = async (email: string, password: string) => {
+    const res = await customerLogin({ email, password });
+    const userData: User = {
+      id: String(res.userId),
+      name: res.email.split('@')[0],
+      email: res.email,
+      role: res.role
+    };
     setUser(userData);
+    localStorage.setItem('token', res.token);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   };
 
   return (
@@ -41,3 +57,5 @@ export function useUser() {
   if (!context) throw new Error('useUser must be used within a UserProvider');
   return context;
 }
+export default UserProvider;
+

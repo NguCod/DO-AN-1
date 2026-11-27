@@ -15,6 +15,7 @@ export interface Category { id: string; name: string; imageUrl?: string; }
 export interface Brand { id: string; name: string; logoUrl?: string; }
 
 export interface CartItem {
+  id?: number;
   productId: string;
   quantity: number;
   product: Product;
