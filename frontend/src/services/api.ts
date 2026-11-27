@@ -14,17 +14,26 @@ interface ApiProduct {
   brandData?: { name: string };
 }
 
+// Price string parser: "6 triệu" -> 6000000, "1,2 tỷ" -> 1200000000, "450000" -> 450000, "900 nghìn–1,5 triệu" -> 1500000
 export function formatPrice(priceStr: string): number {
   if (!priceStr) return 0;
   const map: Record<string, number> = {
     'triệu': 1_000_000,
     'tỷ': 1_000_000_000,
+    'nghìn': 1_000,
   };
-  const clean = priceStr.toLowerCase().replace(/[\d,.–-]/g, '').trim();
+  const matches = [...priceStr.matchAll(/([\d,.]+)\s*([a-zà-ỹ]+)/gi)];
+  if (matches.length > 0) {
+    const lastMatch = matches[matches.length - 1];
+    const num = parseFloat(lastMatch[1].replace(',', '.'));
+    const unit = lastMatch[2].toLowerCase();
+    return num * (map[unit] || 1);
+  }
   const nums = priceStr.match(/[\d,.]+/g);
-  if (!nums || nums.length === 0) return 0;
-  const num = parseFloat(nums[nums.length - 1].replace(',', '.'));
-  return num * (map[clean] || 1);
+  if (nums && nums.length > 0) {
+    return parseFloat(nums[nums.length - 1].replace(',', '.'));
+  }
+  return 0;
 }
 
 export async function fetchProducts(params?: { brand?: string; series?: string; search?: string; category?: string }): Promise<ApiProduct[]> {
