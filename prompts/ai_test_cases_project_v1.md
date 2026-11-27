@@ -45,12 +45,14 @@ Không được khẳng định giá hoặc tồn kho mẫu là thông tin thự
 
 **TC03 – Ngân sách tối đa 3 triệu**
 - Input: Tôi muốn mua vợt với ngân sách tối đa 3 triệu.
-- Expected: prod-2, prod-4, prod-5, prod-6, prod-7 và prod-9.
-- Không đề xuất prod-1, prod-3, prod-8 hoặc prod-10.
+- Expected: Tập sản phẩm đủ điều kiện gồm prod-2, prod-4, prod-5, prod-6, prod-7 và prod-9.
+- Chatbot chỉ giới thiệu tối đa 3 sản phẩm thuộc tập trên trong một câu trả lời.
+- Không giới thiệu prod-1, prod-3, prod-8 hoặc prod-10.
 
 **TC04 – Ngân sách từ 3 đến 4 triệu**
 - Input: Tìm vợt có giá từ 3 đến 4 triệu.
-- Expected: prod-1, prod-3, prod-8 và prod-10.
+- Expected: Tập sản phẩm đủ điều kiện gồm prod-1, prod-3, prod-8 và prod-10.
+- Chatbot chỉ giới thiệu tối đa 3 sản phẩm thuộc tập trên trong một câu trả lời.
 - Giá phải nằm trong khoảng từ 3.000.000đ đến 4.000.000đ.
 
 **TC05 – Không có sản phẩm phù hợp**
@@ -61,13 +63,15 @@ Không được khẳng định giá hoặc tồn kho mẫu là thông tin thự
 **TC06 – Giá hỗn hợp đơn vị**
 - Input: Tôi có ngân sách từ 2,5 triệu đến 3 triệu.
 - Expected: Chuẩn hóa thành 2.500.000đ–3.000.000đ.
-- Có thể đề xuất prod-2, prod-4, prod-5 và prod-9.
+- Tập sản phẩm đủ điều kiện gồm prod-2, prod-4, prod-5 và prod-9.
+- Chatbot chỉ giới thiệu tối đa 3 sản phẩm thuộc tập trên trong một câu trả lời.
 
 ### Nhóm B – Tư vấn theo thuộc tính
 
 **TC07 – Ưu tiên vợt nặng đầu**
 - Input: Tôi muốn tìm vợt nặng đầu.
-- Expected: Có thể đề xuất prod-1, prod-3, prod-8 và prod-10.
+- Expected: Tập sản phẩm đủ điều kiện gồm prod-1, prod-3, prod-8 và prod-10.
+- Chatbot chỉ giới thiệu tối đa 3 sản phẩm thuộc tập trên trong một câu trả lời.
 - Giải thích dựa trên attributes balance = Head Heavy.
 
 **TC08 – Ưu tiên vợt nhẹ đầu**
@@ -77,7 +81,8 @@ Không được khẳng định giá hoặc tồn kho mẫu là thông tin thự
 
 **TC09 – Ưu tiên vợt cân bằng**
 - Input: Tôi muốn vợt cân bằng.
-- Expected: Có thể đề xuất prod-2, prod-4, prod-6, prod-7 và prod-9.
+- Expected: Tập sản phẩm đủ điều kiện gồm prod-2, prod-4, prod-6, prod-7 và prod-9.
+- Chatbot chỉ giới thiệu tối đa 3 sản phẩm thuộc tập trên trong một câu trả lời.
 - Giải thích dựa trên balance = Even Balance.
 
 **TC10 – So sánh trọng lượng 3U và 4U**
