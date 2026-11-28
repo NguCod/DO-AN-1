@@ -29,25 +29,31 @@ export async function handleChatMessage(
   options: ChatOptions = {}
 ): Promise<string> {
   // Fetch products for context grounding
-  // If budget provided, fetch more products to have better selection after filtering
-  const take = options.budget ? 100 : 20
-  const products = await prisma.product.findMany({
-    take,
-    include: { brand: true },
-  })
-
-  // Filter by budget if provided (parse price strings to VND for comparison)
-  let filteredProducts = products
+  // If budget provided, use priceVnd for efficient DB-level filtering
+  let products: any[]
   if (options.budget && options.budget > 0) {
-    filteredProducts = products.filter(p => parsePriceToVND(p.price) <= options.budget!)
-    // If too few after filtering, fall back to all products
-    if (filteredProducts.length < 3) {
-      console.warn(`Only ${filteredProducts.length} products under budget ${options.budget}, falling back to all products`)
-      filteredProducts = products
+    products = await prisma.product.findMany({
+      where: { priceVnd: { lte: options.budget } },
+      take: 20,
+      include: { brand: true },
+      orderBy: { priceVnd: 'asc' },
+    })
+    // If too few after filtering, fall back to broader search
+    if (products.length < 3) {
+      console.warn(`Only ${products.length} products under budget ${options.budget}, falling back to broader search`)
+      products = await prisma.product.findMany({
+        take: 20,
+        include: { brand: true },
+      })
     }
+  } else {
+    products = await prisma.product.findMany({
+      take: 20,
+      include: { brand: true },
+    })
   }
 
-  const productContext = filteredProducts.map(p =>
+  const productContext = products.map(p =>
     `- ${p.name} (${p.brand.name}): Giá ${p.price}, Trọng lượng ${p.weight}, Độ cứng ${p.stiffness}, Cân bằng ${p.balance}, Lối chơi: ${p.playstyle}`
   ).join('\n')
 
@@ -92,7 +98,7 @@ export async function handleChatMessage(
   }
 
   // Fallback AI Rule Engine (when GEMINI_API_KEY is missing or fails)
-  return generateRuleBasedResponse(userMessage, filteredProducts)
+  return generateRuleBasedResponse(userMessage, products)
 }
 
 // Helper: parse price string to VND for budget filtering

@@ -19,6 +19,7 @@ model Product {
   name       String
   series     String
   price      String
+  priceVnd   Int?     // parsed price in VND for efficient budget filtering
   weight     String
   stiffness  String
   balance    String
