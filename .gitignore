@@ -45,4 +45,3 @@ skills_mcp_history.txt
 # Local dev database
 backend/prisma/dev.db
 backend/prisma/dev.db.bak
-backend/uploads/

@@ -8,7 +8,7 @@
     "stiffness": "Siêu Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Smash uy lực, đòi hỏi kỹ thuật và lực cổ tay tốt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_1_astrox_100zz_kurenai.png"
   },
   {
     "name": "Astrox 100ZZ Navy",
@@ -19,7 +19,7 @@
     "stiffness": "Siêu Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Smash uy lực, đòi hỏi kỹ thuật và lực cổ tay tốt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_2_astrox_100zz_navy.png"
   },
   {
     "name": "Astrox 100tour",
@@ -30,7 +30,7 @@
     "stiffness": "Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Smash uy lực, đòi hỏi kỹ thuật và lực cổ tay tốt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_3_astrox_100tour.png"
   },
   {
     "name": "Astrox 100game",
@@ -41,7 +41,7 @@
     "stiffness": "Trung bình",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_4_astrox_100game.png"
   },
   {
     "name": "Astrox 100zz VA",
@@ -52,7 +52,7 @@
     "stiffness": "Siêu Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Smash uy lực, đòi hỏi kỹ thuật và lực cổ tay tốt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_5_astrox_100zz_va.png"
   },
   {
     "name": "Astrox 100tour VA",
@@ -63,7 +63,7 @@
     "stiffness": "Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Smash uy lực, đòi hỏi kỹ thuật và lực cổ tay tốt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_6_astrox_100tour_va.png"
   },
   {
     "name": "Astrox 100game VA",
@@ -74,7 +74,7 @@
     "stiffness": "Trung bình",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_7_astrox_100game_va.png"
   },
   {
     "name": "Astrox 99 Pro",
@@ -85,7 +85,7 @@
     "stiffness": "Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Tấn công cuối sân, đập cầu mạnh.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_8_astrox_99_pro.png"
   },
   {
     "name": "Astrox 99 Tour",
@@ -96,7 +96,7 @@
     "stiffness": "Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Tấn công cuối sân, đập cầu mạnh.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_9_astrox_99_tour.png"
   },
   {
     "name": "Astrox 99 Game",
@@ -107,7 +107,7 @@
     "stiffness": "Trung bình",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_10_astrox_99_game.png"
   },
   {
     "name": "Astrox 99 Play",
@@ -118,7 +118,7 @@
     "stiffness": "Trung bình",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_11_astrox_99_play.png"
   },
   {
     "name": "Astrox 88D Pro",
@@ -129,7 +129,7 @@
     "stiffness": "Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Đánh đôi vị trí cầu sau, chuyên đập cầu.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_12_astrox_88d_pro.png"
   },
   {
     "name": "Astrox 88D Tour",
@@ -140,7 +140,7 @@
     "stiffness": "Cứng",
     "balance": "Nặng đầu",
     "playstyle": "Đánh đôi vị trí cầu sau, chuyên đập cầu.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_13_astrox_88d_tour.png"
   },
   {
     "name": "Astrox 88D Game",
@@ -151,7 +151,7 @@
     "stiffness": "Trung bình",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_14_astrox_88d_game.png"
   },
   {
     "name": "Astrox 88S Pro",
@@ -162,7 +162,7 @@
     "stiffness": "Cứng",
     "balance": "Hơi nặng đầu",
     "playstyle": "Đánh đôi vị trí cầu trước, tấn công nhanh và điều cầu.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_15_astrox_88s_pro.png"
   },
   {
     "name": "Astrox 88S Tour",
@@ -173,7 +173,7 @@
     "stiffness": "Cứng",
     "balance": "Hơi nặng đầu",
     "playstyle": "Đánh đôi vị trí cầu trước, tấn công nhanh và điều cầu.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_16_astrox_88s_tour.png"
   },
   {
     "name": "Astrox 88S Game",
@@ -184,7 +184,7 @@
     "stiffness": "Trung bình",
     "balance": "Hơi nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_17_astrox_88s_game.png"
   },
   {
     "name": "Astrox 88 Play",
@@ -195,7 +195,7 @@
     "stiffness": "Dẻo",
     "balance": "Hơi nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_18_astrox_88_play.png"
   },
   {
     "name": "Astrox 77 Pro",
@@ -206,7 +206,7 @@
     "stiffness": "Cứng vừa",
     "balance": "Nặng đầu",
     "playstyle": "Công thủ cân đối nhưng vẫn thiên tấn công.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_19_astrox_77_pro.png"
   },
   {
     "name": "Astrox 77 Tour",
@@ -217,7 +217,7 @@
     "stiffness": "Cứng vừa",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_20_astrox_77_tour.png"
   },
   {
     "name": "Astrox 77 Play",
@@ -228,7 +228,7 @@
     "stiffness": "Dẻo vừa",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_21_astrox_77_play.png"
   },
   {
     "name": "Astrox 77 Tour Lmt",
@@ -239,7 +239,7 @@
     "stiffness": "Cứng vừa",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_22_astrox_77_tour_lmt.png"
   },
   {
     "name": "Astrox 77 Play Lmt",
@@ -250,7 +250,7 @@
     "stiffness": "Dẻo vừa",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_23_astrox_77_play_lmt.png"
   },
   {
     "name": "Astrox Nextage",
@@ -261,7 +261,7 @@
     "stiffness": "Trung bình",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_24_astrox_nextage.png"
   },
   {
     "name": "Astrox 70",
@@ -272,7 +272,7 @@
     "stiffness": "Trung bình",
     "balance": "Nặng đầu",
     "playstyle": "Dễ tiếp cận hơn, phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_25_astrox_70.png"
   },
   {
     "name": "Astrox 01 Feel",
@@ -283,7 +283,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Phù hợp người mới chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_26_astrox_01_feel.png"
   },
   {
     "name": "Astrox 01 Ability",
@@ -294,7 +294,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Phù hợp người mới chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_27_astrox_01_ability.png"
   },
   {
     "name": "Astrox 01 Clear",
@@ -305,7 +305,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Phù hợp người mới chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_28_astrox_01_clear.png"
   },
   {
     "name": "Astrox 02 Feel",
@@ -316,7 +316,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Phù hợp người mới chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_29_astrox_02_feel.png"
   },
   {
     "name": "Astrox 02 Ability",
@@ -327,7 +327,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Phù hợp người mới chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_30_astrox_02_ability.png"
   },
   {
     "name": "Astrox 02 Clear",
@@ -338,7 +338,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Phù hợp người mới chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_31_astrox_02_clear.png"
   },
   {
     "name": "Nanoflare 1000 Z",
@@ -349,7 +349,7 @@
     "stiffness": "Siêu cứng",
     "balance": "Nhẹ đầu",
     "playstyle": "Phản tạt tốc độ cao, drive nhanh.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_32_nanoflare_1000_z.png"
   },
   {
     "name": "Nanoflare 1000 Tour",
@@ -360,7 +360,7 @@
     "stiffness": "Cứng",
     "balance": "Nhẹ đầu",
     "playstyle": "Phản tạt tốc độ cao, drive nhanh.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_33_nanoflare_1000_tour.png"
   },
   {
     "name": "Nanoflare 1000 Game",
@@ -371,7 +371,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_34_nanoflare_1000_game.png"
   },
   {
     "name": "Nanoflare 1000 Play",
@@ -382,7 +382,7 @@
     "stiffness": "Dẻo",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_35_nanoflare_1000_play.png"
   },
   {
     "name": "Nanoflare 800 Pro",
@@ -393,7 +393,7 @@
     "stiffness": "Cứng",
     "balance": "Nhẹ đầu",
     "playstyle": "Phản xạ nhanh, điều cầu và phòng thủ chủ động.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_36_nanoflare_800_pro.png"
   },
   {
     "name": "Nanoflare 800 Tour",
@@ -404,7 +404,7 @@
     "stiffness": "Cứng",
     "balance": "Nhẹ đầu",
     "playstyle": "Phản xạ nhanh, điều cầu và phòng thủ chủ động.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_37_nanoflare_800_tour.png"
   },
   {
     "name": "Nanoflare 800 Game",
@@ -415,7 +415,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_38_nanoflare_800_game.png"
   },
   {
     "name": "Nanoflare 800 Play",
@@ -426,7 +426,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_39_nanoflare_800_play.png"
   },
   {
     "name": "Nanoflare 700 Pro",
@@ -437,7 +437,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Tốc độ và công thủ linh hoạt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_40_nanoflare_700_pro.png"
   },
   {
     "name": "Nanoflare 700 Tour",
@@ -448,7 +448,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Tốc độ và công thủ linh hoạt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_41_nanoflare_700_tour.png"
   },
   {
     "name": "Nanoflare 700 Game",
@@ -459,7 +459,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_42_nanoflare_700_game.png"
   },
   {
     "name": "Nanoflare 700 Play",
@@ -470,7 +470,7 @@
     "stiffness": "Dẻo vừa",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_43_nanoflare_700_play.png"
   },
   {
     "name": "Nanoflare Nextage",
@@ -481,7 +481,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp đánh đôi, phản tạt và điều cầu.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_44_nanoflare_nextage.png"
   },
   {
     "name": "Nanoflare 70",
@@ -492,7 +492,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Tốc độ và công thủ linh hoạt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_45_nanoflare_70.png"
   },
   {
     "name": "Nanoflare 700 Tour Lmt",
@@ -503,7 +503,7 @@
     "stiffness": "Cứng",
     "balance": "Nhẹ đầu",
     "playstyle": "Tốc độ và công thủ linh hoạt.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_46_nanoflare_700_tour_lmt.png"
   },
   {
     "name": "Nanoflare 700 Game Lmt",
@@ -514,7 +514,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_47_nanoflare_700_game_lmt.png"
   },
   {
     "name": "Nanoflare 700 Play Lmt",
@@ -525,7 +525,7 @@
     "stiffness": "Trung bình",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_48_nanoflare_700_play_lmt.png"
   },
   {
     "name": "Nanoflare 001 Ability",
@@ -536,7 +536,7 @@
     "stiffness": "Dẻo",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_49_nanoflare_001_ability.png"
   },
   {
     "name": "Nanoflare 001 Feel",
@@ -547,7 +547,7 @@
     "stiffness": "Dẻo",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_50_nanoflare_001_feel.png"
   },
   {
     "name": "Nanoflare 001 Clear",
@@ -558,7 +558,7 @@
     "stiffness": "Dẻo",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_51_nanoflare_001_clear.png"
   },
   {
     "name": "Nanoflare 002 Ability",
@@ -569,7 +569,7 @@
     "stiffness": "Dẻo",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_52_nanoflare_002_ability.png"
   },
   {
     "name": "Nanoflare 002 Feel",
@@ -580,7 +580,7 @@
     "stiffness": "Dẻo",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_53_nanoflare_002_feel.png"
   },
   {
     "name": "Nanoflare 002 Clear",
@@ -591,7 +591,7 @@
     "stiffness": "Dẻo",
     "balance": "Nhẹ đầu",
     "playstyle": "Phù hợp người chơi phong trào.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_54_nanoflare_002_clear.png"
   },
   {
     "name": "Arcsaber 11 Pro",
@@ -602,7 +602,7 @@
     "stiffness": "Cứng",
     "balance": "Cân bằng",
     "playstyle": "Kiểm soát toàn diện, điều cầu, phản tạt và tấn công có tính toán.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_55_arcsaber_11_pro.png"
   },
   {
     "name": "Arcsaber 11 Tour",
@@ -613,7 +613,7 @@
     "stiffness": "Cứng",
     "balance": "Cân bằng",
     "playstyle": "Công thủ toàn diện, phù hợp người chơi khá.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_56_arcsaber_11_tour.png"
   },
   {
     "name": "Arcsaber 11 Play",
@@ -624,7 +624,7 @@
     "stiffness": "Trung bình",
     "balance": "Cân bằng",
     "playstyle": "Người mới và người chơi phong trào cần cây vợt dễ làm quen.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_57_arcsaber_11_play.png"
   },
   {
     "name": "Arcsaber 7 Pro",
@@ -635,7 +635,7 @@
     "stiffness": "Trung bình",
     "balance": "Cân bằng",
     "playstyle": "Điều cầu, phòng thủ, phản tạt và kiểm soát nhịp độ.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_58_arcsaber_7_pro.png"
   },
   {
     "name": "Arcsaber 7 Tour",
@@ -646,7 +646,7 @@
     "stiffness": "Trung bình",
     "balance": "Cân bằng",
     "playstyle": "Công thủ cân bằng, dễ tiếp cận hơn bản Pro.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_59_arcsaber_7_tour.png"
   },
   {
     "name": "Arcsaber 7 Play",
@@ -657,7 +657,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Người mới và người chơi phong trào cần cây vợt dễ làm quen.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_60_arcsaber_7_play.png"
   },
   {
     "name": "Arcsaber 7 Tour Lmt",
@@ -668,7 +668,7 @@
     "stiffness": "Trung bình",
     "balance": "Cân bằng",
     "playstyle": "Công thủ cân bằng, dễ tiếp cận hơn bản Pro.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_61_arcsaber_7_tour_lmt.png"
   },
   {
     "name": "Arcsaber 7 Play Lmt",
@@ -679,7 +679,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Người mới và người chơi phong trào cần cây vợt dễ làm quen.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_62_arcsaber_7_play_lmt.png"
   },
   {
     "name": "Arcsaber 2 Ability",
@@ -690,7 +690,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Người mới và người chơi phong trào cần cây vợt dễ làm quen.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_63_arcsaber_2_ability.png"
   },
   {
     "name": "Arcsaber 2 Clear",
@@ -701,7 +701,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Người mới và người chơi phong trào cần cây vợt dễ làm quen.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_64_arcsaber_2_clear.png"
   },
   {
     "name": "Arcsaber 2 Feel",
@@ -712,7 +712,7 @@
     "stiffness": "Dẻo",
     "balance": "Cân bằng",
     "playstyle": "Người mới và người chơi phong trào cần cây vợt dễ làm quen.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_65_arcsaber_2_feel.png"
   },
   {
     "name": "Duora Z-Strike",
@@ -723,7 +723,7 @@
     "stiffness": "Siêu cứng",
     "balance": "Cân bằng",
     "playstyle": "Tấn công kết hợp kiểm soát, dành cho người chơi trình độ cao.",
-    "image": ""
+    "image": "http://localhost:3000/uploads/yonex_66_duora_z_strike.png"
   },
   {
     "name": "Axforce 100",
