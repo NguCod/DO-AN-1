@@ -55,9 +55,9 @@ export default function App() {
 
   return (
     <UserProvider>
-      <CartProvider>
-        <AdminProvider>
-          <Router>
+      <AdminProvider>
+        <Router>
+          <CartProvider>
             <Routes>
               <Route path="/*" element={<PublicRoutes />} />
               <Route path="/admin/login" element={<AdminLogin />} />
@@ -72,9 +72,9 @@ export default function App() {
                 </AdminLayout>
               } />
             </Routes>
-          </Router>
-        </AdminProvider>
-      </CartProvider>
+          </CartProvider>
+        </Router>
+      </AdminProvider>
     </UserProvider>
   );
 }
