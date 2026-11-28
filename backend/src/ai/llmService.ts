@@ -1,5 +1,7 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai'
 import { PrismaClient } from '@prisma/client'
+import fs from 'fs'
+import path from 'path'
 
 const prisma = new PrismaClient()
 
@@ -7,24 +9,45 @@ const prisma = new PrismaClient()
 const apiKey = process.env.GEMINI_API_KEY
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null
 
-const SYSTEM_PROMPT = `Bạn là Chuyên gia Tư vấn Cầu lông của Ace Badminton Shop (chuỗi cửa hàng uy tín chuyên cung cấp dụng cụ cầu lông chính hãng: Yonex, Victor, Lining).
+// Load system prompt from file (allows Tú to update prompt without code changes)
+// In ts-node-dev, cwd = backend/, project root is one level up
+const SYSTEM_PROMPT_PATH = path.join(process.cwd(), '..', 'prompts', 'system_prompt_v1.md')
+let SYSTEM_PROMPT = `Bạn là Chuyên gia Tư vấn Cầu lông của Ace Badminton Shop.`
+try {
+  SYSTEM_PROMPT = fs.readFileSync(SYSTEM_PROMPT_PATH, 'utf-8')
+} catch (e) {
+  console.warn('Could not load system_prompt_v1.md, using fallback prompt:', e)
+}
 
-Nhiệm vụ của bạn:
-1. Tư vấn chọn vợt, dây, giày, phụ kiện phù hợp với trình độ, lối chơi (tấn công/phòng thủ/toàn diện) và ngân sách của khách hàng.
-2. Giải đáp thắc mắc kỹ thuật: độ cứng cán, điểm cân bằng (nặng đầu/cân bằng/nhẹ đầu), trọng lượng (3U/4U/5U), mức căng dây.
-3. Luôn lịch sự, chuyên nghiệp, khéo léo gợi ý các sản phẩm có sẵn tại Ace Badminton.
-4. Trả lời ngắn gọn, cô đọng, định dạng Markdown rõ ràng.
+interface ChatOptions {
+  budget?: number // max budget in VND
+}
 
-Khi tư vấn, hãy sử dụng danh sách sản phẩm hiện có dưới đây làm cơ sở:`
-
-export async function handleChatMessage(userMessage: string, history: { role: 'user' | 'assistant'; content: string }[] = []): Promise<string> {
-  // Fetch top products for context grounding
+export async function handleChatMessage(
+  userMessage: string,
+  history: { role: 'user' | 'assistant'; content: string }[] = [],
+  options: ChatOptions = {}
+): Promise<string> {
+  // Fetch products for context grounding
+  // If budget provided, fetch more products to have better selection after filtering
+  const take = options.budget ? 100 : 20
   const products = await prisma.product.findMany({
-    take: 20,
+    take,
     include: { brand: true },
   })
 
-  const productContext = products.map(p =>
+  // Filter by budget if provided (parse price strings to VND for comparison)
+  let filteredProducts = products
+  if (options.budget && options.budget > 0) {
+    filteredProducts = products.filter(p => parsePriceToVND(p.price) <= options.budget!)
+    // If too few after filtering, fall back to all products
+    if (filteredProducts.length < 3) {
+      console.warn(`Only ${filteredProducts.length} products under budget ${options.budget}, falling back to all products`)
+      filteredProducts = products
+    }
+  }
+
+  const productContext = filteredProducts.map(p =>
     `- ${p.name} (${p.brand.name}): Giá ${p.price}, Trọng lượng ${p.weight}, Độ cứng ${p.stiffness}, Cân bằng ${p.balance}, Lối chơi: ${p.playstyle}`
   ).join('\n')
 
@@ -69,7 +92,25 @@ export async function handleChatMessage(userMessage: string, history: { role: 'u
   }
 
   // Fallback AI Rule Engine (when GEMINI_API_KEY is missing or fails)
-  return generateRuleBasedResponse(userMessage, products)
+  return generateRuleBasedResponse(userMessage, filteredProducts)
+}
+
+// Helper: parse price string to VND for budget filtering
+function parsePriceToVND(priceStr: string): number {
+  if (!priceStr) return Infinity
+  const map: Record<string, number> = { 'triệu': 1_000_000, 'tỷ': 1_000_000_000, 'nghìn': 1_000 }
+  const matches = [...priceStr.matchAll(/([\d,.]+)\s*([a-zà-ỹ]+)/gi)]
+  if (matches.length > 0) {
+    const lastMatch = matches[matches.length - 1]
+    const num = parseFloat(lastMatch[1].replace(',', '.'))
+    const unit = lastMatch[2].toLowerCase()
+    return num * (map[unit] || 1)
+  }
+  const nums = priceStr.match(/[\d,.]+/g)
+  if (nums && nums.length > 0) {
+    return parseFloat(nums[nums.length - 1].replace(',', '.'))
+  }
+  return Infinity
 }
 
 function generateRuleBasedResponse(query: string, products: any[]): string {

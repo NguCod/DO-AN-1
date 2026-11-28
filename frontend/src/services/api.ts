@@ -284,11 +284,11 @@ export async function fetchPublicStats(): Promise<{ totalProducts: number; total
   return res.json()
 }
 
-export async function sendChatMessage(message: string, history: { role: string; content: string }[]): Promise<string> {
+export async function sendChatMessage(message: string, history: { role: string; content: string }[], budget?: number): Promise<string> {
   const res = await fetch(`${API}/chat`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, history }),
+    body: JSON.stringify({ message, history, budget }),
   })
   if (!res.ok) throw new Error('AI chat request failed')
   const data = await res.json()

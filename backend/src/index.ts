@@ -102,12 +102,12 @@ app.get('/api/brands', async (_req, res) => {
 
 // --- AI Chat ---
 app.post('/api/chat', async (req, res) => {
-  const { message, history = [] } = req.body
+  const { message, history = [], budget } = req.body
   if (!message || typeof message !== 'string') {
     return res.status(400).json({ error: 'Thiếu message' })
   }
   try {
-    const response = await handleChatMessage(message, history)
+    const response = await handleChatMessage(message, history, { budget: budget ? Number(budget) : undefined })
     res.json({ message: response })
   } catch (e: any) {
     res.status(500).json({ error: 'Lỗi khi xử lý yêu cầu AI' })
